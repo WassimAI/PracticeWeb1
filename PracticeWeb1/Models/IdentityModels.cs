@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PracticeWeb1.Entities;
 
 namespace PracticeWeb1.Models
 {
@@ -20,6 +22,8 @@ namespace PracticeWeb1.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Product> products { get; set; }
+        public DbSet<Category> categories{ get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -1,0 +1,6 @@
+﻿@model PracticeWeb1.Areas.Admin.Models.SmallButtonModel
+
+<a class="btn btn-@Model.Type btn-sm" href="/Admin/Product/@Model.Action@Model.ActionParameters">
+    <span class="glyphicon glyphicon-@Model.Glyph"></span>
+    @Model.Text
+</a>

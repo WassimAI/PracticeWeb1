@@ -1,0 +1,282 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Helpers;
+using System.Web.Mvc;
+using PracticeWeb1.Areas.Admin.Models;
+using PracticeWeb1.Entities;
+using PracticeWeb1.Models;
+
+namespace PracticeWeb1.Areas.Admin.Controllers
+{
+    public class ProductController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: Admin/Product
+        public ActionResult Index(string Search, string Categories)
+        {
+            var categoriesList = new List<string>();
+
+            categoriesList.AddRange(db.categories.Select(x => x.Title).Distinct());//Distinct is to avoid repetition of some titles
+
+            ViewBag.Categories = new SelectList(categoriesList);
+
+            var products = db.products.ToList();
+
+            if (!string.IsNullOrEmpty(Search))
+            {
+                products = products.Where(x => x.Title.Contains(Search)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(Categories))
+            {
+                products = products.Where(x => x.category.Title == Categories).ToList();
+            }
+
+            return View(products);
+        }
+
+        // GET: Admin/Product/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        // GET: Admin/Product/Create
+        public ActionResult Create()
+        {
+            var model = new Product();
+
+            ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title");
+
+            return View(model);
+        }
+
+        // POST: Admin/Product/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Product model, HttpPostedFileBase file)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title");
+                return View(model);
+            }
+
+            if (db.products.Any(x => x.Title == model.Title))
+            {
+                ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title");
+                ModelState.AddModelError("", "That product name is taken!");
+                return View(model);
+            }
+
+            Product product = new Product();
+
+            product.Title = model.Title;
+            product.Description = model.Description;
+            product.Price = model.Price;
+
+            //Category cat = db.categories.FirstOrDefault(x => x.Id == model.CategoryId); This to be used for category name later
+
+            product.CategoryId = model.CategoryId;
+
+            db.products.Add(product);
+            db.SaveChanges();
+
+            //Get the Product Id to use in Image Upload
+            int id = product.Id;
+
+            if (!addImage(product, id, file))
+            {
+                ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title");
+                ModelState.AddModelError("", "The image was not uploaded - wrong image extension.");
+                return View(model);
+            }
+
+            if (addImage(product, id, file))
+                db.SaveChanges();
+
+
+            return RedirectToAction("Index");
+        }
+
+        // GET: Admin/Product/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", product.CategoryId);
+            return View(product);
+        }
+
+        // POST: Admin/Product/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Product product, HttpPostedFileBase file)
+        {
+            var newImageName = "";
+
+            if (addImage(product, product.Id, file))
+            {
+                newImageName = file.FileName;
+            }
+            else
+            {
+                ModelState.AddModelError("", "The image was not uploaded - wrong image extension.");
+                ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", product.CategoryId);
+                return View(product);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var productToChange = db.products.Where(x => x.Id.Equals(product.Id)).FirstOrDefault();
+
+                productToChange.Title = product.Title;
+                productToChange.Description = product.Description;
+                productToChange.Price = product.Price;
+                productToChange.ImageUrl = newImageName;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+
+            }
+
+            ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", product.CategoryId);
+            return View(product);
+
+
+        }
+
+        // GET: Admin/Product/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        // POST: Admin/Product/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Product product = db.products.Find(id);
+            db.products.Remove(product);
+            db.SaveChanges();
+
+            // Delete product folder
+            var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+            string pathString = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
+
+            if (Directory.Exists(pathString))
+                Directory.Delete(pathString, true);
+
+            return RedirectToAction("Index");
+        }
+
+        public bool addImage(Product product, int id, HttpPostedFileBase file)
+        {
+            //Add new image
+            // Create necessary directories
+            var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+
+            var pathString1 = Path.Combine(originalDirectory.ToString(), "Products");
+            var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
+            var pathString3 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
+
+            if (!Directory.Exists(pathString1))
+                Directory.CreateDirectory(pathString1);
+
+            if (!Directory.Exists(pathString2))
+                Directory.CreateDirectory(pathString2);
+
+            if (!Directory.Exists(pathString3))
+                Directory.CreateDirectory(pathString3);
+
+            if (file != null && file.ContentLength > 0)
+            {
+                // Get file extension
+                string ext = file.ContentType.ToLower();
+
+                // Verify extension
+                if (ext != "image/jpg" &&
+                    ext != "image/jpeg" &&
+                    ext != "image/pjpeg" &&
+                    ext != "image/gif" &&
+                    ext != "image/x-png" &&
+                    ext != "image/png")
+                {
+                    ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title");
+                    ModelState.AddModelError("", "The image was not uploaded - wrong image extension.");
+                    return false;
+                }
+
+                // Init image name
+                string imageName = file.FileName;
+
+                // Save image name to product Object
+                product.ImageUrl = imageName;
+
+                // Set original and thumb image paths
+                var path = string.Format("{0}\\{1}", pathString2, imageName);
+                var path2 = string.Format("{0}\\{1}", pathString3, imageName);
+
+                // Save original
+                file.SaveAs(path);
+
+                // Create and save thumb
+                WebImage img = new WebImage(file.InputStream);
+                img.Resize(200, 200);
+                img.Save(path2);
+
+
+            }
+
+            return true;
+
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+    }
+}
