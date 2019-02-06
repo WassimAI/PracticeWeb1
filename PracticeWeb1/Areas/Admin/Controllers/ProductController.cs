@@ -11,6 +11,8 @@ using System.Web.Mvc;
 using PracticeWeb1.Areas.Admin.Models;
 using PracticeWeb1.Entities;
 using PracticeWeb1.Models;
+using PagedList;
+using PagedList.Mvc;
 
 namespace PracticeWeb1.Areas.Admin.Controllers
 {
@@ -19,27 +21,32 @@ namespace PracticeWeb1.Areas.Admin.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Admin/Product
-        public ActionResult Index(string Search, string Categories)
+        public ActionResult Index(string Search, string Categories, int? Page, string sortBy)
         {
+            ViewBag.NameSort = string.IsNullOrEmpty(sortBy) ? "NameDesc" : "";
+
             var categoriesList = new List<string>();
 
             categoriesList.AddRange(db.categories.Select(x => x.Title).Distinct());//Distinct is to avoid repetition of some titles
 
             ViewBag.Categories = new SelectList(categoriesList);
 
-            var products = db.products.ToList();
+            var products = db.products.AsQueryable();
 
             if (!string.IsNullOrEmpty(Search))
             {
-                products = products.Where(x => x.Title.Contains(Search)).ToList();
+                products = products.Where(x => x.Title.Contains(Search));
             }
 
             if (!string.IsNullOrEmpty(Categories))
             {
-                products = products.Where(x => x.category.Title == Categories).ToList();
+                products = products.Where(x => x.category.Title == Categories);
             }
 
-            return View(products);
+            if (sortBy == "NameDesc")
+                return View(products.OrderByDescending(x => x.Title).ToPagedList(Page ?? 1, 3));
+            else
+                return View(products.OrderBy(x => x.Title).ToPagedList(Page ?? 1, 3));
         }
 
         // GET: Admin/Product/Details/5
