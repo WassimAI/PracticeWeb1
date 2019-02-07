@@ -214,6 +214,22 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        // /Admin/Product/
+        [HttpPost]
+        public ActionResult DeleteMany(IEnumerable<int> productsToDelete)
+        {
+            List<Product> listToDelete = db.products.Where(x => productsToDelete.Contains(x.Id)).ToList();
+
+            foreach(var item in listToDelete)
+            {
+                db.products.Remove(item);
+            }
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         public bool addImage(Product product, int id, HttpPostedFileBase file)
         {
             //Add new image
