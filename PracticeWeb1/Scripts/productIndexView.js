@@ -15,18 +15,28 @@
     $(".delete-multiple").click(deleteMultiple);
 
     function deleteMultiple() {
-        var rows = $(".table tr").length;
+
         var ids = [];
 
         $.each($("input[name='employeesToDelete']:checked"), function () {
             ids.push($(this).val());
         });
 
-        //alert(ids);
-
-        $.post("/Admin/Product/DeleteMany", ids, function () {
-            alert("post is called!");
+        $.post("/Admin/Product/DeleteMany", { ids : ids }, function(data){
+            window.location = "/Admin/Product";
         });
+
+        //This also works:
+
+        //$.ajax({
+        //    url: "/Admin/Product/DeleteMany",
+        //    type: 'POST',
+        //    traditional: true,
+        //    data: { ids: ids},
+        //    success: function (response) {
+        //        window.location = "/Admin/Product";
+        //    }
+        //});
     }
 
 });
