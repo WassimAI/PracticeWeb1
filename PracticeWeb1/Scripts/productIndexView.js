@@ -10,21 +10,39 @@
         $(".search-btn").click();
     }
 
+    /////////////////////////////////////
+    //Select All checkbox
+
+    $('#selectAll').click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+
+  
+
     ///////////////////////////////////////////
     //Delete Multiple function through Aja
     $(".delete-multiple").click(deleteMultiple);
 
     function deleteMultiple() {
 
-        var ids = [];
+            var count = $("input[name='productsToDelete']:checked").length;
+            if (count == 0) {
+                alert("No rows selected to delete");
+                return false;
+            }
+            else {
+                confirm(count + " row(s) will be deleted");
+                var ids = [];
 
-        $.each($("input[name='employeesToDelete']:checked"), function () {
-            ids.push($(this).val());
-        });
+                $.each($("input[name='productsToDelete']:checked"), function () {
+                    ids.push($(this).val());
+                });
 
-        $.post("/Admin/Product/DeleteMany", { ids : ids }, function(data){
-            window.location = "/Admin/Product";
-        });
+                $.post("/Admin/Product/DeleteMany", { ids: ids }, function (data) {
+                    window.location = "/Admin/Product";
+                });
+            }
+
 
         //This also works:
 
