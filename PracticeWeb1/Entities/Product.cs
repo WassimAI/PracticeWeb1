@@ -20,5 +20,6 @@ namespace PracticeWeb1.Entities
 
         [ForeignKey("CategoryId")]
         public virtual Category category { get; set; }
+
     }
 }

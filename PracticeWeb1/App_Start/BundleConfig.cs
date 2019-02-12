@@ -25,14 +25,19 @@ namespace PracticeWeb1
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
                       "~/Scripts/productImagePreview.js",
-                      "~/Scripts/productIndexView.js"));
+                      "~/Scripts/productIndexView.js",
+                      "~/Scripts/dropzone/dropzone.js",
+                      "~/Scripts/jquery.fancybox.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/UI").Include(
-                      "~/Content/searchForm.css"));
+                      "~/Content/searchForm.css",
+                      "~/Scripts/dropzone/dropzone.css",
+                      "~/Scripts/dropzone/basic.css",
+                      "~/Content/jquery.fancybox.css"));
         }
     }
 }

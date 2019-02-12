@@ -44,9 +44,9 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             }
 
             if (sortBy == "NameDesc")
-                return View(products.OrderByDescending(x => x.Title).ToPagedList(Page ?? 1, 3));
+                return View(products.OrderByDescending(x => x.Title).ToPagedList(Page ?? 1, 10));
             else
-                return View(products.OrderBy(x => x.Title).ToPagedList(Page ?? 1, 3));
+                return View(products.OrderBy(x => x.Title).ToPagedList(Page ?? 1, 10));
         }
 
         // GET: Admin/Product/Details/5
@@ -57,17 +57,33 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.products.Find(id);
+
             if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+
+            ProductVM model = new ProductVM()
+            {
+                Id = product.Id,
+                Title = product.Title,
+                Description = product.Description,
+                CategoryName = product.category.Title,
+                Price = product.Price,
+                ImageUrl = product.ImageUrl
+            };
+
+            model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
+                                               .Select(fn => Path.GetFileName(fn));
+
+            
+            return View(model);
         }
 
         // GET: Admin/Product/Create
         public ActionResult Create()
         {
-            var model = new Product();
+            var model = new ProductVM();
 
             ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title");
 
@@ -79,7 +95,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product model, HttpPostedFileBase file)
+        public ActionResult Create(ProductVM model, HttpPostedFileBase file)
         {
             if (!ModelState.IsValid)
             {
@@ -118,7 +134,10 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             }
 
             if (addImage(product, id, file))
+            {
                 db.SaveChanges();
+            }
+                
 
 
             return RedirectToAction("Index");
@@ -132,12 +151,28 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.products.Find(id);
+
             if (product == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", product.CategoryId);
-            return View(product);
+
+            ProductVM model = new ProductVM()
+            {
+                Id = product.Id,
+                Title = product.Title,
+                Description = product.Description,
+                Price = product.Price,
+                ImageUrl = product.ImageUrl,
+                CategoryId = product.CategoryId
+            };
+
+            model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
+                                               .Select(fn => Path.GetFileName(fn));
+
+            return View(model);
         }
 
         // POST: Admin/Product/Edit/5
@@ -145,37 +180,45 @@ namespace PracticeWeb1.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product product, HttpPostedFileBase file)
+        public ActionResult Edit(ProductVM model, HttpPostedFileBase file)
         {
             var newImageName = "";
 
-            if (addImage(product, product.Id, file))
+            var productToChange = db.products.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
+
+            if(file != null)
             {
-                newImageName = file.FileName;
-            }
-            else
-            {
-                ModelState.AddModelError("", "The image was not uploaded - wrong image extension.");
-                ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", product.CategoryId);
-                return View(product);
-            }
+                DeleteImage(productToChange.Id, productToChange.ImageUrl);
+                if (addImage(productToChange, productToChange.Id, file))
+                {
+                    newImageName = file.FileName;
+                }
+                else
+                {
+                    ModelState.AddModelError("", "The image was not uploaded - wrong image extension.");
+                    ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", model.CategoryId);
+                    return View(model);
+                }
+            }            
+            
 
             if (ModelState.IsValid)
             {
-                var productToChange = db.products.Where(x => x.Id.Equals(product.Id)).FirstOrDefault();
+                productToChange.Title = model.Title;
+                productToChange.Description = model.Description;
+                productToChange.Price = model.Price;
+                productToChange.CategoryId = model.CategoryId;
+                if (file != null)
+                    productToChange.ImageUrl = newImageName;
 
-                productToChange.Title = product.Title;
-                productToChange.Description = product.Description;
-                productToChange.Price = product.Price;
-                productToChange.ImageUrl = newImageName;
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
 
             }
 
-            ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", product.CategoryId);
-            return View(product);
+            ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", model.CategoryId);
+            return View(model);
 
 
         }
@@ -204,8 +247,8 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             db.products.Remove(product);
             db.SaveChanges();
 
-            // Delete product folder
-            var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+            //Delete product folder
+           var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
             string pathString = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
 
             if (Directory.Exists(pathString))
@@ -227,7 +270,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 db.products.Remove(item);
             }
 
-
+            DeleteProductsFolder(ids);
 
             db.SaveChanges();
 
@@ -242,6 +285,8 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             var pathString1 = Path.Combine(originalDirectory.ToString(), "Products");
             var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
             var pathString3 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
+            var pathString4 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
+            var pathString5 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
 
             if (!Directory.Exists(pathString1))
                 Directory.CreateDirectory(pathString1);
@@ -251,6 +296,12 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
             if (!Directory.Exists(pathString3))
                 Directory.CreateDirectory(pathString3);
+
+            if (!Directory.Exists(pathString4))
+                Directory.CreateDirectory(pathString4);
+
+            if (!Directory.Exists(pathString5))
+                Directory.CreateDirectory(pathString5);
 
             if (file != null && file.ContentLength > 0)
             {
@@ -285,7 +336,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
                 // Create and save thumb
                 WebImage img = new WebImage(file.InputStream);
-                img.Resize(200, 200);
+                img.Resize(150, 150);
                 img.Save(path2);
 
 
@@ -293,6 +344,76 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
             return true;
 
+        }
+
+        public void DeleteProductsFolder(int[] ids)
+        {
+            foreach(int id in ids)
+            {
+                var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+                string pathString = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
+
+                if (Directory.Exists(pathString))
+                    Directory.Delete(pathString, true);
+            }
+            
+        }
+
+        // POST: Admin/Product/SaveGalleryImages
+        [HttpPost]
+        public void SaveGalleryImages(int id)
+        {
+            // Loop through files
+            foreach (string fileName in Request.Files)
+            {
+                // Init the file
+                HttpPostedFileBase file = Request.Files[fileName];
+
+                // Check it's not null
+                if (file != null && file.ContentLength > 0)
+                {
+                    // Set directory paths
+                    var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+
+                    string pathString1 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
+                    string pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
+
+                    // Set image paths
+                    var path = string.Format("{0}\\{1}", pathString1, file.FileName);
+                    var path2 = string.Format("{0}\\{1}", pathString2, file.FileName);
+
+                    // Save original and thumb
+
+                    file.SaveAs(path);
+                    WebImage img = new WebImage(file.InputStream);
+                    img.Resize(150, 150);
+                    img.Save(path2);
+                }
+
+            }
+
+        }
+
+        // POST: Admin/Product/DeleteImage
+        [HttpPost]
+        public void DeleteImage(int id, string imageName)
+        {
+            string fullPath1 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/" + imageName);
+            string fullPath2 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/Thumbs/" + imageName);
+            string fullPath3 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/" + imageName);
+            string fullPath4 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Thumbs/" + imageName);
+
+            if (System.IO.File.Exists(fullPath1))
+                System.IO.File.Delete(fullPath1);
+
+            if (System.IO.File.Exists(fullPath2))
+                System.IO.File.Delete(fullPath2);
+
+            if (System.IO.File.Exists(fullPath3))
+                System.IO.File.Delete(fullPath3);
+
+            if (System.IO.File.Exists(fullPath4))
+                System.IO.File.Delete(fullPath4);
         }
 
         protected override void Dispose(bool disposing)

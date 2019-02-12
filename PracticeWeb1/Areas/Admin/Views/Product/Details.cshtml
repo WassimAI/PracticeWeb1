@@ -1,4 +1,4 @@
-﻿@model PracticeWeb1.Entities.Product
+﻿@model PracticeWeb1.Areas.Admin.Models.ProductVM
 
 @using PracticeWeb1.Areas.Admin.Models
 
@@ -8,48 +8,65 @@
 
 <h2>Details</h2>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.category.Title)
-        </dt>
+<div class="row">
+    <div class="col-md-6">
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.category.Title)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CategoryName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            Product Image:
-        </dt>
-        <dd>
-            <img src="~/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageUrl" />
-        </dd>
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                Product Display Image:
+            </dt>
+            <dd>
+                <img src="~/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageUrl" />
+            </dd>
+        </dl>
+    </div>    
 </div>
+<div class="row">
+    <div class="fancyboxDiv col-xs-12">
+        @foreach (var image in Model.GalleryImages)
+            {
+            <div style="display: inline-block">
+                <a class="fancybox" rel="gallery1" href="/Images/Uploads/Products/@Model.Id/Gallery/@image">
+                    <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@image" />
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<br /><br />
+
 <p>
     @Html.Partial("_SmallButtonPartial", new SmallButtonModel
 {

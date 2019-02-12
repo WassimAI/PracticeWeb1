@@ -15,8 +15,12 @@ namespace PracticeWeb1.Areas.Admin.Models
         public string Title { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
+        [Display(Name ="Category")]
+        public string CategoryName { get; set; }
+        public string ImageUrl { get; set; }
         [Required]
         public int CategoryId { get; set; }
         public virtual IEnumerable<SelectListItem> Categories { get; set; }
+        public IEnumerable<string> GalleryImages { get; set; }
     }
 }
