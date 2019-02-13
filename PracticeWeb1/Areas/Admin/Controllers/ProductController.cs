@@ -33,6 +33,8 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
             var products = db.products.AsQueryable();
 
+            //List<ProductVM> productVMList;
+
             if (!string.IsNullOrEmpty(Search))
             {
                 products = products.Where(x => x.Title.Contains(Search));
@@ -40,7 +42,8 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
             if (!string.IsNullOrEmpty(Categories))
             {
-                products = products.Where(x => x.category.Title == Categories);
+                int CatId = db.categories.FirstOrDefault(x => x.Title.Equals(Categories)).Id;
+                products = products.Where(x => x.CategoryId == CatId);
             }
 
             if (sortBy == "NameDesc")
@@ -68,7 +71,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 Id = product.Id,
                 Title = product.Title,
                 Description = product.Description,
-                CategoryName = product.category.Title,
+                CategoryName = db.categories.FirstOrDefault(x => x.Id.Equals(product.CategoryId)).Title,
                 Price = product.Price,
                 ImageUrl = product.ImageUrl
             };
@@ -76,7 +79,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
                                                .Select(fn => Path.GetFileName(fn));
 
-            
+
             return View(model);
         }
 
@@ -126,18 +129,19 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             //Get the Product Id to use in Image Upload
             int id = product.Id;
 
-            if (!addImage(product, id, file))
+            if (!addImage(id, file))
             {
                 ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title");
                 ModelState.AddModelError("", "The image was not uploaded - wrong image extension.");
                 return View(model);
             }
 
-            if (addImage(product, id, file))
+            if (addImage(id, file))
             {
+                product.ImageUrl = file.FileName;
                 db.SaveChanges();
             }
-                
+
 
 
             return RedirectToAction("Index");
@@ -182,16 +186,27 @@ namespace PracticeWeb1.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProductVM model, HttpPostedFileBase file)
         {
-            var newImageName = "";
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             var productToChange = db.products.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
 
-            if(file != null)
+            productToChange.Title = model.Title;
+            productToChange.Description = model.Description;
+            productToChange.Price = model.Price;
+            productToChange.CategoryId = model.CategoryId;
+
+            db.SaveChanges();
+
+            if (file != null)
             {
                 DeleteImage(productToChange.Id, productToChange.ImageUrl);
-                if (addImage(productToChange, productToChange.Id, file))
+                if (addImage(productToChange.Id, file))
                 {
-                    newImageName = file.FileName;
+                    productToChange.ImageUrl = file.FileName;
+                    db.SaveChanges();
                 }
                 else
                 {
@@ -199,28 +214,9 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                     ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", model.CategoryId);
                     return View(model);
                 }
-            }            
-            
+            }          
 
-            if (ModelState.IsValid)
-            {
-                productToChange.Title = model.Title;
-                productToChange.Description = model.Description;
-                productToChange.Price = model.Price;
-                productToChange.CategoryId = model.CategoryId;
-                if (file != null)
-                    productToChange.ImageUrl = newImageName;
-
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
-
-            }
-
-            ViewBag.CategoryId = new SelectList(db.categories, "Id", "Title", model.CategoryId);
-            return View(model);
-
-
+            return RedirectToAction("Index");
         }
 
         // GET: Admin/Product/Delete/5
@@ -248,7 +244,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             db.SaveChanges();
 
             //Delete product folder
-           var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+            var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
             string pathString = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
 
             if (Directory.Exists(pathString))
@@ -276,7 +272,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
         }
 
-        public bool addImage(Product product, int id, HttpPostedFileBase file)
+        public bool addImage(int id, HttpPostedFileBase file)
         {
             //Add new image
             // Create necessary directories
@@ -324,9 +320,6 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 // Init image name
                 string imageName = file.FileName;
 
-                // Save image name to product Object
-                product.ImageUrl = imageName;
-
                 // Set original and thumb image paths
                 var path = string.Format("{0}\\{1}", pathString2, imageName);
                 var path2 = string.Format("{0}\\{1}", pathString3, imageName);
@@ -348,7 +341,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
         public void DeleteProductsFolder(int[] ids)
         {
-            foreach(int id in ids)
+            foreach (int id in ids)
             {
                 var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
                 string pathString = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
@@ -356,7 +349,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 if (Directory.Exists(pathString))
                     Directory.Delete(pathString, true);
             }
-            
+
         }
 
         // POST: Admin/Product/SaveGalleryImages

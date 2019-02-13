@@ -33,5 +33,6 @@ namespace PracticeWeb1.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }
