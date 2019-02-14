@@ -71,6 +71,7 @@
     @Html.Partial("_SmallButtonPartial", new SmallButtonModel
 {
     Action = "Edit",
+    Controller = "Product",
     Glyph = "pencil",
     Type = "warning",
     Id = Model.Id,
@@ -80,6 +81,7 @@
     @Html.Partial("_SmallButtonPartial", new SmallButtonModel
 {
     Action = "Index",
+    Controller = "Product",
     Glyph = "list",
     Type = "primary",
     Text = "Back to Products"

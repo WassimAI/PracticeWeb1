@@ -1,3 +1,8 @@
 ﻿.searchForm .form-control {
     display: inline;
+    
+}
+
+.searchForm .search-text {
+    margin-right: 3px;
 }

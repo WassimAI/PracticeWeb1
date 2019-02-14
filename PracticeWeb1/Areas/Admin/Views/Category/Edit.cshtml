@@ -1,5 +1,7 @@
 ﻿@model PracticeWeb1.Areas.Admin.Models.CategoryVM
 
+@using PracticeWeb1.Areas.Admin.Models
+
 @{
     ViewBag.Title = "Edit";
 }
@@ -43,18 +45,25 @@
             <label class="control-label col-md-2" for="ImageUrl">Category Image</label>
             <div class="col-md-10">
                 <input type="file" name="file" id="ImageUpload" /><br />
-                <img id="imgpreview" src="~/Images/Uploads/Categories/@Model.Id/@Model.ImageUrl" width="150" height="150" />
+                <img id="imgpreview" src="~/Images/Uploads/Categories/@Model.Id/Thumbs/@Model.ImageUrl" />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.Partial("_SmallButtonPartial", new SmallButtonModel
+   {
+       Action = "Index",
+       Controller = "Category",
+       Glyph = "list",
+       Type = "primary",
+       Text = "Back to Categories"
+   })
 </div>

@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using PagedList;
 using PracticeWeb1.Areas.Admin.Models;
 using PracticeWeb1.Entities;
 using PracticeWeb1.Models;
@@ -19,9 +20,32 @@ namespace PracticeWeb1.Areas.Admin.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Admin/Category
-        public ActionResult Index()
+        public ActionResult Index(string Search, string Categories, string sortBy, int? page)
         {
-            return View(db.categories.ToList());
+            ViewBag.NameSort = string.IsNullOrEmpty(sortBy) ? "NameDesc" : "";
+
+            var categoriesList = new List<string>();
+
+            categoriesList.AddRange(db.categories.Select(x => x.Title).Distinct());//Distinct is to avoid repetition of some titles
+
+            ViewBag.Categories = new SelectList(categoriesList);
+
+            var categories = db.categories.AsQueryable();
+
+            if (!string.IsNullOrEmpty(Search))
+            {
+                categories = categories.Where(x => x.Title.Contains(Search));
+            }
+
+            if (!string.IsNullOrEmpty(Categories))
+            {
+                categories = categories.Where(x => x.Title.Equals(Categories));
+            }
+
+            if (sortBy == "NameDesc")
+                return View(categories.OrderByDescending(x => x.Title).ToPagedList(page ?? 1, 3));
+            else
+                return View(categories.OrderBy(x => x.Title).ToPagedList(page ?? 1, 3));
         }
 
         // GET: Admin/Category/Details/5
