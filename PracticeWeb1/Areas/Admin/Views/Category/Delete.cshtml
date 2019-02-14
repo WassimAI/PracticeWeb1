@@ -11,7 +11,7 @@
 {
     <div class="alert alert-danger">
         <p>
-            @TempData["AlertMsg"]
+            @TempData["AlertMsg"] &nbsp; <a href="@Url.Action("Index","Product", new { @Categories= Model.Title})">Click Here</a> To see Products.
         </p>
     </div>
 }
