@@ -221,6 +221,23 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        public void DeleteMany(int[] ids)
+        {
+
+            List<Category> listToDelete = db.categories.Where(x => ids.Contains(x.Id)).ToList();
+
+
+            foreach (var item in listToDelete)
+            {
+                db.categories.Remove(item);
+            }
+
+            DeleteCategoriesFolder(ids);
+
+            db.SaveChanges();
+
+        }
+
         public bool addImage(int id, HttpPostedFileBase file)
         {
             //Add new image
@@ -308,6 +325,19 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
             if (System.IO.File.Exists(fullPath4))
                 System.IO.File.Delete(fullPath4);
+        }
+
+        public void DeleteCategoriesFolder(int[] ids)
+        {
+            foreach (int id in ids)
+            {
+                var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+                string pathString = Path.Combine(originalDirectory.ToString(), "Categories\\" + id.ToString());
+
+                if (Directory.Exists(pathString))
+                    Directory.Delete(pathString, true);
+            }
+
         }
 
         protected override void Dispose(bool disposing)

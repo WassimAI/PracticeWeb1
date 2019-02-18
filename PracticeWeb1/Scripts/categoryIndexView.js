@@ -8,33 +8,34 @@
 
     /*Uncomment this when implementing delete multi*/
 
-    //$(".delete-multiple").click(deleteMultiple);
 
-    //function deleteMultiple() {
+    $(".delete-multiple-category").click(deleteMultiple);
 
-    //    var count = $("input[name='productsToDelete']:checked").length;
-    //    if (count == 0) {
-    //        alert("No rows selected to delete");
-    //        return false;
-    //    }
-    //    else {
-    //        if (confirm(count + " row(s) will be deleted")) {
-    //            var ids = [];
+    function deleteMultiple(e) {
+        e.preventDefault();
+        var count = $("input[name='categoriesToDelete']:checked").length;
+        if (count == 0) {
+            alert("No rows selected to delete");
+            return false;
+        }
+        else {
+            if (confirm(count + " row(s) will be deleted")) {
+                var ids = [];
 
-    //            $.each($("input[name='productsToDelete']:checked"), function () {
-    //                ids.push($(this).val());
-    //            });
+                $.each($("input[name='categoriesToDelete']:checked"), function () {
+                    ids.push($(this).val());
+                });
 
-    //            $.post("/Admin/Product/DeleteMany", { ids: ids }, function (data) {
-    //                window.location = "/Admin/Product";
-    //            });
-    //        } else { return false;}
+                $.post("/Admin/Category/DeleteMany", { ids: ids }, function (data) {
+                    window.location = "/Admin/Category";
+                });
+            } else { return false;}
 
             
 
-    //    }
+        }
 
-    //}
+    }
 
 
 
