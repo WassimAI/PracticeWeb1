@@ -38,7 +38,8 @@ namespace PracticeWeb1
                       "~/Content/searchForm.css",
                       "~/Scripts/dropzone/dropzone.css",
                       "~/Scripts/dropzone/basic.css",
-                      "~/Content/jquery.fancybox.css"));
+                      "~/Content/jquery.fancybox.css",
+                      "~/Content/Categories.css"));
         }
     }
 }

@@ -149,12 +149,12 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 return View(model);
             }
 
-            Category category = db.categories.Where(x=>x.Id.Equals(model.Id)).FirstOrDefault();
+            Category category = db.categories.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
 
             category.Title = model.Title;
             category.Description = model.Description;
 
-            
+
 
             if (file != null)
             {
@@ -221,7 +221,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public void DeleteMany(int[] ids)
+        public int DeleteMany(int[] ids)
         {
 
             List<Category> listToDelete = db.categories.Where(x => ids.Contains(x.Id)).ToList();
@@ -229,12 +229,28 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
             foreach (var item in listToDelete)
             {
+                if (db.products.Any(x => x.CategoryId.Equals(item.Id)))
+                {
+                    return -1;
+                }
+
                 db.categories.Remove(item);
+
+                var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+                string pathString = Path.Combine(originalDirectory.ToString(), "Categories\\" + item.Id.ToString());
+
+                if (Directory.Exists(pathString))
+                    Directory.Delete(pathString, true);
+
+                db.SaveChanges();
+
             }
 
-            DeleteCategoriesFolder(ids);
+            return 1;
 
-            db.SaveChanges();
+            //DeleteCategoriesFolder(ids);
+
+
 
         }
 

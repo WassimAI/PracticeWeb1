@@ -27,7 +27,17 @@
                 });
 
                 $.post("/Admin/Category/DeleteMany", { ids: ids }, function (data) {
-                    window.location = "/Admin/Category";
+
+                    var $response = parseInt(data);
+
+                    if ($response == 1) {
+                        window.location = "/Admin/Category";
+                    } if ($response == -1) {
+                        $("#alertDiv").addClass("show");
+                        $("#alertDiv").html("One or more categories have products assigned to it, you must delete those products first.");
+                        $("#alertDiv").append("<a href='#' class='pull-right'><span class='glyphicon glyphicon-trash'></span></a>");
+                    }
+
                 });
             } else { return false;}
 
