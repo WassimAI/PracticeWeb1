@@ -1,3 +1,7 @@
 ﻿.show{
     display: normal !important;
 }
+
+.hide {
+    display: none !important;
+}

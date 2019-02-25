@@ -221,6 +221,8 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        //Admin/DeleteMany
+        [HttpPost]
         public int DeleteMany(int[] ids)
         {
 

@@ -1,5 +1,7 @@
 ﻿$(function () {
 
+    $(".alertDiv").addClass("hide");
+
     /////////////////////
     /*Search functionality, pagination and sorting are common with productIndexView.js*/
 
@@ -33,21 +35,25 @@
                     if ($response == 1) {
                         window.location = "/Admin/Category";
                     } if ($response == -1) {
-                        $("#alertDiv").addClass("show");
-                        $("#alertDiv").html("One or more categories have products assigned to it, you must delete those products first.");
-                        $("#alertDiv").append("<a href='#' class='pull-right'><span class='glyphicon glyphicon-trash'></span></a>");
+                        $(".alertDiv").removeClass("hide");
+                        $(".alertDiv").addClass("show");
+                        $(".alertDiv").html("One or more categories have products assigned to it, you must delete those products first.");
+                        $(".alertDiv").append("<a href='#' class='removeDiv pull-right'><span class='glyphicon glyphicon-remove'></span></a>");
                     }
 
                 });
-            } else { return false;}
-
-            
+            } else { return false; }
 
         }
 
     }
 
+    $(".body-content.removeDiv").click(function (e) {
+        e.preventDefault();
 
+        $("body .alertDiv").removeClass("show");
+        $("body > div").addClass("hide");
+    });
 
 
 });
