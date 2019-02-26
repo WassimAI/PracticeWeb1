@@ -43,9 +43,9 @@ namespace PracticeWeb1.Areas.Admin.Controllers
             }
 
             if (sortBy == "NameDesc")
-                return View(categories.OrderByDescending(x => x.Title).ToPagedList(page ?? 1, 3));
+                return View(categories.OrderByDescending(x => x.Title).ToPagedList(page ?? 1, 10));
             else
-                return View(categories.OrderBy(x => x.Title).ToPagedList(page ?? 1, 3));
+                return View(categories.OrderBy(x => x.Title).ToPagedList(page ?? 1, 10));
         }
 
         // GET: Admin/Category/Details/5
@@ -87,7 +87,13 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 return View(model);
             }
 
-            if (db.categories.Any(x => x.Title == model.Title))
+            if (file == null)
+            {
+                ModelState.AddModelError("", "Image Not uploaded - wrong image extension.");
+                return View(model);
+            }
+
+                if (db.categories.Any(x => x.Title == model.Title))
             {
                 ModelState.AddModelError("", "The Category Name already exists.");
                 return View(model);
@@ -114,7 +120,9 @@ namespace PracticeWeb1.Areas.Admin.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Index");
+            TempData["success"] = "You have successfully Added the Category";
+
+            return View("Create");
 
         }
 
