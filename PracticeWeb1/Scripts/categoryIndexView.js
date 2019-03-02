@@ -39,6 +39,10 @@
                         $(".alertDiv").addClass("show");
                         $(".alertDiv").html("One or more categories have products assigned to it, you must delete those products first.");
                         $(".alertDiv").append("<a href='#' class='removeDiv pull-right'><span class='glyphicon glyphicon-remove'></span></a>");
+                        $(".alertDiv .removeDiv").click(function (e) {
+                            $(".alertDiv").removeClass("show");
+                            $(".alertDiv").addClass("hide");
+                        });
                     }
 
                 });
@@ -47,13 +51,6 @@
         }
 
     }
-
-    $(".body-content.removeDiv").click(function (e) {
-        e.preventDefault();
-
-        $("body .alertDiv").removeClass("show");
-        $("body > div").addClass("hide");
-    });
 
 
 });

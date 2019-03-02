@@ -17,7 +17,7 @@
 
     @*@using (Html.BeginForm("Create", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {*@
-    <form id="myForm" enctype="multipart/form-data">
+    <form id="myForm" action="/Admin/Category/Create" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-success create-btn" />
+                    <input type="submit" name="create-btn" value="Create" class="btn btn-success create-btn" />
                 </div>
             </div>
         </div>
@@ -73,30 +73,14 @@
                 $("#myForm").submit(function (e) {
                     e.preventDefault();
                     var formData = new FormData(this);
-                    //var form = $("#myForm").serialize();
-
-                    //var antiForgery = $('input[name="__RequestVerificationToken"]').val();
-                    //var file = $('input[name="file"]').get(0).files;
-                    //var model = {
-                    //    Title: $('input[name="Title"]').val(),
-                    //    Description: $('input[name="Description"]').val()
-                    //};
-
-                    //$.post("/Admin/Category/Create", { __RequestVerificationToken: antiForgery, model: JSON.stringify(model), file: file[0] }, function (data) {
-                    //    alert("success " + form);
-                    //});
 
                     $.ajax({
                         type: "POST",
                         url: "/Admin/Category/Create",
-                        //data: {
-                        //    __RequestVerificationToken: antiForgery,
-                        //    model: JSON.stringify(model),
-                        //    file: file
-                        //},
                         data: formData,
                         success: function (data) {
                             $("body").html(data);
+                            //location.href = "/Admin/Category/Create";
                         },
                         contentType: false,
                         processData: false

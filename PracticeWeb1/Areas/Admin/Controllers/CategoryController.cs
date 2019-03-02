@@ -122,7 +122,7 @@ namespace PracticeWeb1.Areas.Admin.Controllers
 
             TempData["success"] = "You have successfully Added the Category";
 
-            return View("Create");
+            return View();
 
         }
 
