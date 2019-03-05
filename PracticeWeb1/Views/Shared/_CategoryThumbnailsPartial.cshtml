@@ -1,0 +1,15 @@
+﻿@model PracticeWeb1.Entities.Category
+
+
+    <div class="panelContainer">
+        <div class="panel panel-primary catThumbnail">
+            <div class="panel-heading">@Model.Title</div>
+            <div class="panel-body">
+                <img src="~/Images/Uploads/Categories/@Model.Id/Thumbs/@Model.ImageUrl" alt="@Model.ImageUrl" />
+            </div>
+            <div class="panel-footer">@Model.Description</div>
+        </div>
+    </div>
+
+
+

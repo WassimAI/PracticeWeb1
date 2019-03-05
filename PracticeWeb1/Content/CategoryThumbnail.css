@@ -1,0 +1,36 @@
+﻿.thumbnailArea .catThumbnail {
+    margin-right: 10px;
+    padding: 0px;
+}
+
+.panelContainer {
+    display: inline-block;
+    margin-top: 50px;
+}
+
+.catThumbnail img {
+    width: 100%;
+    height: auto;
+    padding-top: 10px;
+}
+
+    .catThumbnail img:hover {
+        transform: scale(1.5) rotate(5deg);
+        transition: all 1s;
+    }
+
+.thumbnailArea .panel-body {
+    overflow: hidden;
+}
+
+.panelContainer .panel-body {
+    max-height: 200px;
+    min-height: 200px;
+    max-width: 180px;
+    min-width: 180px;
+}
+
+.categorySideBar {
+    margin-top: 50px;
+    border: 1px solid black;
+}
