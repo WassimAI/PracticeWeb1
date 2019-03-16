@@ -41,7 +41,8 @@ namespace PracticeWeb1
                       "~/Scripts/dropzone/basic.css",
                       "~/Content/jquery.fancybox.css",
                       "~/Content/Categories.css",
-                      "~/Content/CategoryThumbnail.css"));
+                      "~/Content/CategoryThumbnail.css",
+                      "~/Content/ProductThumbnail.css"));
         }
     }
 }

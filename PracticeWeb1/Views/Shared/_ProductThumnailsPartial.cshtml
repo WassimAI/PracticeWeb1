@@ -1,0 +1,15 @@
+﻿@model PracticeWeb1.Areas.Admin.Models.ProductVM
+
+<div class="panelContainer">
+    <div class="panel panel-primary catThumbnail">
+        <div class="panel-heading">
+            @Model.Title
+        </div>
+        <div class="panel-body">
+            <a href="/Home/ProductDetails/@Model.Id">
+                <img src="~/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageUrl" alt="@Model.ImageUrl" />
+            </a>
+        </div>
+        <div class="panel-footer">@Model.Description</div>
+    </div>
+</div>

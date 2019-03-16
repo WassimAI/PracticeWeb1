@@ -8,11 +8,13 @@
 
 <div class="thumbnailArea">
     <div class="row">
+        <h3 class="categoriesHeader" style="margin-left:30%;">Shopping Categories</h3>
+        <hr />
         <div class="col-md-9">
             @foreach (var item in Model)
             {
                 count++;
-                @Html.Partial("_CategoryThumbnailsPartial", item)
+                    @Html.Partial("_CategoryThumbnailsPartial", item)
 
                 if (count == 4)
                 {

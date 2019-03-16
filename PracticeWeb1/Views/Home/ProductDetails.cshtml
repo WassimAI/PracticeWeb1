@@ -1,0 +1,24 @@
+﻿@model PracticeWeb1.Areas.Admin.Models.ProductVM
+
+@{
+    ViewBag.Title = "Product Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ProductDetails</h2>
+<h3>@Model.Title</h3>
+<hr />
+
+<div class="row">
+    <div class="fancyboxDiv col-xs-12">
+        @foreach (var image in Model.GalleryImages)
+            {
+            <div style="display: inline-block">
+                <a class="fancybox" rel="gallery1" href="/Images/Uploads/Products/@Model.Id/Gallery/@image">
+                    <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@image" />
+                </a>
+            </div>
+        }
+    </div>
+</div>
+

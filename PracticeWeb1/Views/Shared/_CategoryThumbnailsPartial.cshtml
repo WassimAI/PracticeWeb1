@@ -5,7 +5,9 @@
         <div class="panel panel-primary catThumbnail">
             <div class="panel-heading">@Model.Title</div>
             <div class="panel-body">
-                <img src="~/Images/Uploads/Categories/@Model.Id/Thumbs/@Model.ImageUrl" alt="@Model.ImageUrl" />
+                <a href="/Home/AllProducts/@Model.Id">
+                    <img src="~/Images/Uploads/Categories/@Model.Id/Thumbs/@Model.ImageUrl" alt="@Model.ImageUrl" />
+                </a>
             </div>
             <div class="panel-footer">@Model.Description</div>
         </div>

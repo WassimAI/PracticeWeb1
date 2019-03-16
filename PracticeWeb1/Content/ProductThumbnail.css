@@ -1,4 +1,4 @@
-﻿.thumbnailArea .catThumbnail {
+﻿.catThumbnail {
     margin-right: 10px;
     padding: 0px;
 }
@@ -19,17 +19,17 @@
         transition: all 1s;
     }
 
-.thumbnailArea .panel-body {
+.panel-body {
     overflow: hidden;
 }
 
-.thumbnailArea .panel-body:hover {
+.panel-body:hover {
     cursor: pointer;
 }
 
 .panelContainer .panel-body {
-    max-height: 200px;
-    min-height: 200px;
+    max-height: 150px;
+    min-height: 150px;
     max-width: 180px;
     min-width: 180px;
 }
@@ -39,7 +39,7 @@
     border: 1px solid black;
 }
 
-.thumbnailArea .categoriesHeader{
+.categoriesHeader{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 35px;
 }
