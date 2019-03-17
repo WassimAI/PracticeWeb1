@@ -1,7 +1,5 @@
 ﻿$(function () {
 
-    $(".alertDiv").addClass("hide");
-
     /////////////////////
     /*Search functionality, pagination and sorting are common with productIndexView.js*/
 
@@ -11,7 +9,9 @@
     /*Uncomment this when implementing delete multi*/
 
 
-    $(".delete-multiple-category").click(deleteMultiple);
+    //$(".delete-multiple-category").click(deleteMultiple);
+
+    $(document).on("click", ".delete-multiple-category", deleteMultiple);
 
     function deleteMultiple(e) {
         e.preventDefault();
@@ -40,8 +40,10 @@
                         $(".alertDiv").html("One or more categories have products assigned to it, you must delete those products first.");
                         $(".alertDiv").append("<a href='#' class='removeDiv pull-right'><span class='glyphicon glyphicon-remove'></span></a>");
                         $(".alertDiv .removeDiv").click(function (e) {
-                            $(".alertDiv").removeClass("show");
-                            $(".alertDiv").addClass("hide");
+                            //e.preventDefault();
+                                $(".alertDiv").removeClass("show");
+                                $(".alertDiv").fadeOut(1000);
+                                setTimeout(function () { $(".alertDiv").addClass("hide"); },2000);                                                          
                         });
                     }
 

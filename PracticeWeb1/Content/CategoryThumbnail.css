@@ -12,11 +12,12 @@
     width: 100%;
     height: auto;
     padding-top: 10px;
+    transition: all 1s;
 }
 
     .catThumbnail img:hover {
         transform: scale(1.5) rotate(5deg);
-        transition: all 1s;
+        /*transition: all 1s;*/
     }
 
 .thumbnailArea .panel-body {

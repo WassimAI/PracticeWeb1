@@ -3,13 +3,16 @@
 <div class="panelContainer">
     <div class="panel panel-primary catThumbnail">
         <div class="panel-heading">
-            @Model.Title
+            @Model.Title<span class="pull-right priceLabel">$@Model.Price</span>
         </div>
         <div class="panel-body">
             <a href="/Home/ProductDetails/@Model.Id">
                 <img src="~/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageUrl" alt="@Model.ImageUrl" />
             </a>
         </div>
-        <div class="panel-footer">@Model.Description</div>
+        <div class="panel-footer">@Model.ShortDescription</div>
+    </div>
+    <div class="addToCart">
+        <a href="#" class="btn btn-success">Add To Cart<span class="glyphicon glyphicon-shopping-cart"></span></a>
     </div>
 </div>

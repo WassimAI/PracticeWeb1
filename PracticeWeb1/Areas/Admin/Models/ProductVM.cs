@@ -28,6 +28,7 @@ namespace PracticeWeb1.Areas.Admin.Models
         public string Title { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
+        public string ShortDescription { get { return Description.Length < 25 ? Description : Description.Substring(0, 25) + "..."; } }
         [Display(Name ="Category")]
         public string CategoryName { get; set; }
         public string ImageUrl { get; set; }
