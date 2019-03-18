@@ -29,7 +29,9 @@ namespace PracticeWeb1
                       "~/Scripts/dropzone/dropzone.js",
                       "~/Scripts/jquery.fancybox.js",
                       "~/Scripts/categoryIndexView.js",
-                      "~/Scripts/adminMenu.js"));
+                      "~/Scripts/adminMenu.js",
+                      "~/Scripts/bootbox.js",
+                      "~/Scripts/logoff.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

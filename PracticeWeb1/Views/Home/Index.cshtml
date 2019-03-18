@@ -29,17 +29,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts{
-    <script>
-        $(function () {
-            $(document).on("click", ".nav #logOff", function (e) {
-                e.preventDefault();
-
-                $.post("/UserAccount/Logoff/", null, function () {
-                    location.href = "/Home/Index";
-                });
-            });
-        });
-    </script>
-}

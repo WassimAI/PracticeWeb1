@@ -1,24 +1,28 @@
-﻿@if (Session["role"] == "admin")
+﻿@if (Session["role"] != null)
 {
-    <li class="dropdown" data-admin-menu>
-        <a href="#">
-            Admin
-            <span class="glyphicon glyphicon-chevron-down"></span>
-        </a>
-        <ul class="dropdown-menu">
-            <li>
-                <a href="/Admin/Product">Products</a>
-            </li>
-            <li class="divider" />
-            <li>
-                <a href="/Admin/Category">Categories</a>
-            </li>
-            <li class="divider" />
-            <li>
-                <a href="/UserAccount/Index">Users</a>
-            </li>
-        </ul>
 
-    </li>
+    if (Session["role"].ToString() == "admin")
+    {
+        <li class="dropdown" data-admin-menu>
+            <a href="#">
+                Admin
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="/Admin/Product">Products</a>
+                </li>
+                <li class="divider" />
+                <li>
+                    <a href="/Admin/Category">Categories</a>
+                </li>
+                <li class="divider" />
+                <li>
+                    <a href="/UserAccount/Index">Users</a>
+                </li>
+            </ul>
 
+        </li>
+
+    }
 }

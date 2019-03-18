@@ -86,9 +86,15 @@ namespace PracticeWeb1.Controllers
                 return View(model);
             }
 
-            int roleId= db.userRoles.Where(x => x.UniqueId == user.UniqueId).FirstOrDefault().RoleId;
+            int roleId = 0;
+            string role = "";
 
-            string role = db.roles.Where(x => x.Id == roleId).FirstOrDefault().Name;
+            if(db.userRoles.Where(x=>x.UniqueId==user.UniqueId).FirstOrDefault() != null)
+            {
+                roleId = db.userRoles.Where(x => x.UniqueId == user.UniqueId).FirstOrDefault().RoleId;
+                role = db.tblRoles.Where(x => x.Id == roleId).FirstOrDefault().Name;
+            }
+
 
             if (role == "admin")
             {
@@ -109,9 +115,7 @@ namespace PracticeWeb1.Controllers
         [HttpPost]
         public void Logoff()
         {
-            Session["uniqueId"] = null;
-            Session["email"] = null;
-            Session["username"] = null;
+            Session.Clear();
         }
     }
 }
