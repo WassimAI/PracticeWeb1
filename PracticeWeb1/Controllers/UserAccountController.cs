@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -63,6 +64,54 @@ namespace PracticeWeb1.Controllers
             var model = new UserLoginModel();
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Login(UserLoginModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Errors Below.");
+                return View(model);
+            }
+
+            var hashedPassword = Crypto.Hash(model.Password);
+
+
+            UserAccount user = db.userAccounts.Where(x => x.Email == model.Email && x.Password == hashedPassword).FirstOrDefault();
+
+            if(user == null)
+            {
+                ModelState.AddModelError("", "Invalid User Name or Password");
+                return View(model);
+            }
+
+            int roleId= db.userRoles.Where(x => x.UniqueId == user.UniqueId).FirstOrDefault().RoleId;
+
+            string role = db.roles.Where(x => x.Id == roleId).FirstOrDefault().Name;
+
+            if (role == "admin")
+            {
+                Session["role"] = role;
+            }
+            else
+            {
+                Session["role"] = null;
+            }
+
+            Session["username"] = user.UserName;
+            Session["email"] = user.Email;
+            Session["uniqueId"] = user.UniqueId;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public void Logoff()
+        {
+            Session["uniqueId"] = null;
+            Session["email"] = null;
+            Session["username"] = null;
         }
     }
 }

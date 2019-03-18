@@ -8,7 +8,7 @@ using PracticeWeb1.Entities;
 
 namespace PracticeWeb1.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+    //You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -25,6 +25,8 @@ namespace PracticeWeb1.Models
         public DbSet<Product> products { get; set; }
         public DbSet<Category> categories{ get; set; }
         public DbSet<UserAccount> userAccounts { get; set; }
+        public DbSet<Role> roles { get; set; }
+        public DbSet<UserRole> userRoles { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -15,14 +15,14 @@ namespace PracticeWeb1.Entities.ViewModels
 
         public UserAccountVM(UserAccount row)
         {
-            Id = row.Id;
+            UniqueId = row.UniqueId;
             Fname = row.Fname;
             LastName = row.LastName;
             Email = row.Email;
             Password = row.Password;
             UserName = row.UserName;
         }
-        public int Id { get; set; }
+
         [Display(Name ="User ID")]
         public Guid UniqueId { get; set; }
         [Required]

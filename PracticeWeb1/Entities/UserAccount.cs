@@ -11,7 +11,6 @@ namespace PracticeWeb1.Entities
     public class UserAccount
     {
         [Key]
-        public int Id { get; set; }
         public Guid UniqueId { get; set; }
         public string Fname { get; set; }
         public string LastName { get; set; }
