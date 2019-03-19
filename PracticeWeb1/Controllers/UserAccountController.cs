@@ -5,6 +5,7 @@ using System.Security.Policy;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using PracticeWeb1.Custom_Authorization;
 using PracticeWeb1.Entities;
 using PracticeWeb1.Entities.ViewModels;
 using PracticeWeb1.Models;
@@ -16,6 +17,7 @@ namespace PracticeWeb1.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: UserAccount
+        [roleAuth]
         public ActionResult Index()
         {
             var userVMList = new List<UserAccountVM>();
@@ -108,6 +110,8 @@ namespace PracticeWeb1.Controllers
             Session["username"] = user.UserName;
             Session["email"] = user.Email;
             Session["uniqueId"] = user.UniqueId;
+
+            Session.Add("uniqueId", user.UniqueId);
 
             return RedirectToAction("Index", "Home");
         }

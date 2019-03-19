@@ -13,9 +13,11 @@ using PracticeWeb1.Entities;
 using PracticeWeb1.Models;
 using PagedList;
 using PagedList.Mvc;
+using PracticeWeb1.Custom_Authorization;
 
 namespace PracticeWeb1.Areas.Admin.Controllers
 {
+    [roleAuth]
     public class ProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -10,11 +10,13 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using PagedList;
 using PracticeWeb1.Areas.Admin.Models;
+using PracticeWeb1.Custom_Authorization;
 using PracticeWeb1.Entities;
 using PracticeWeb1.Models;
 
 namespace PracticeWeb1.Areas.Admin.Controllers
 {
+    [roleAuth]
     public class CategoryController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
