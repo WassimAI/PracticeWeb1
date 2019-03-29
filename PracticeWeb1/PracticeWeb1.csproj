@@ -209,6 +209,7 @@
     <Compile Include="Areas\Admin\Models\CategoryVM.cs" />
     <Compile Include="Areas\Admin\Models\ProductVM.cs" />
     <Compile Include="Areas\Admin\Models\SmallButtonModel.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="Custom_Authorization\roleAuth.cs" />
@@ -217,6 +218,8 @@
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\UserAccount.cs" />
     <Compile Include="Entities\UserRole.cs" />
+    <Compile Include="Entities\ViewModels\CartVM.cs" />
+    <Compile Include="Entities\ViewModels\ItemVM.cs" />
     <Compile Include="Entities\ViewModels\RoleVM.cs" />
     <Compile Include="Entities\ViewModels\UserAccountVM.cs" />
     <Compile Include="Entities\ViewModels\UserLoginModel.cs" />
@@ -278,6 +281,7 @@
     <Content Include="Areas\Admin\Views\Category\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
+    <Content Include="Scripts\Cart\addToCart.js" />
     <Content Include="Scripts\logoff.js" />
     <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -338,6 +342,7 @@
     <Content Include="Views\UserAccount\Index.cshtml" />
     <Content Include="Views\UserAccount\Register.cshtml" />
     <Content Include="Views\UserAccount\Login.cshtml" />
+    <Content Include="Views\Cart\AddToCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
