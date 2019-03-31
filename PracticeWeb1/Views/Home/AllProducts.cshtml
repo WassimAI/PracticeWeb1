@@ -15,9 +15,6 @@
 
 <div class="row>">
     <div class="col-md-9 col-xs-12">
-        <div class="cartPartial">
-
-        </div>
 
         @foreach (var item in Model)
         {
@@ -32,7 +29,11 @@
 
     </div>
     <div class="col-md-3 hidden-xs categorySideBar">
-        <h3>Side Bar Goes Here</h3>
-        <p>Saludoes</p>
+        <h3>Your Cart:</h3>
+        <div class="cartPartial">
+        </div>
+        <div>
+            <a href="#" class="btn btn-danger clear-cart">Empty Your Cart</a>
+        </div>
     </div>
 </div>

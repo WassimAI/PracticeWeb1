@@ -1,0 +1,13 @@
+﻿@model PracticeWeb1.Entities.ViewModels.CartVM
+
+@if(Model == null)
+{
+    <p>There are no items in the cart.</p>
+}
+else
+{
+    <h4>Quantity: @Model.Qty</h4>
+    <h4>Cost: $@Model.TotalPrice</h4>
+}
+
+

@@ -32,7 +32,8 @@ namespace PracticeWeb1
                       "~/Scripts/adminMenu.js",
                       "~/Scripts/bootbox.js",
                       "~/Scripts/logoff.js",
-                      "~/Scripts/Cart/addToCart.js"));
+                      "~/Scripts/Cart/addToCart.js",
+                      "~/Scripts/Cart/clearCart.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

@@ -82,7 +82,17 @@ namespace PracticeWeb1.Controllers
             model.Qty = qty;
             model.TotalPrice = totalPrice;
 
-            return PartialView(model);
+            return PartialView("_AddToCartPartial", model);
+        }
+
+        [HttpPost]
+        public ActionResult ClearCart()
+        {
+            var model = new CartVM();
+
+            Session["cart"] = null;
+
+            return PartialView("_AddToCartPartial", model);
         }
     }
 }
