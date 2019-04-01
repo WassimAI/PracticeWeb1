@@ -8,7 +8,7 @@
 
         $.post(url, { productId: id }, function (data) {
             
-            $(".cartPartial").html(data);
+            $(".cartDetailsPartial").html(data);
         });
     });
 });

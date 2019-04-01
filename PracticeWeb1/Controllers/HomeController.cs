@@ -29,6 +29,7 @@ namespace PracticeWeb1.Controllers
             //Surprisingly this only worked when I used == instead of .Equal() method
             listOfProducts = db.products.Where(x => x.CategoryId == id).ToArray().Select(x => new ProductVM(x)).ToList();
 
+            ViewBag.PageTitle = "AllProducts";
             return View(listOfProducts);
         }
 

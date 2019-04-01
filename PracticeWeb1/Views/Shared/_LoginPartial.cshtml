@@ -1,4 +1,11 @@
 ﻿<ul class="nav navbar-nav navbar-right">
+    @if(ViewBag.PageTitle != "AllProducts")
+    {
+    <li class="active">
+        @Html.Action("CartPartial", "Cart")
+    </li>
+    }
+
 
     @if (Session["uniqueId"] != null)
     {
@@ -21,7 +28,7 @@
         <li>@Html.ActionLink("Register", "Register", "UserAccount")</li>
         <li>@Html.ActionLink("Log in", "Login", "UserAccount")</li>
     }
-    
+
 </ul>
 
 

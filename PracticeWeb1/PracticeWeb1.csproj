@@ -218,6 +218,7 @@
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\UserAccount.cs" />
     <Compile Include="Entities\UserRole.cs" />
+    <Compile Include="Entities\ViewModels\CartDetailsVM.cs" />
     <Compile Include="Entities\ViewModels\CartVM.cs" />
     <Compile Include="Entities\ViewModels\ItemVM.cs" />
     <Compile Include="Entities\ViewModels\RoleVM.cs" />
@@ -343,7 +344,8 @@
     <Content Include="Views\UserAccount\Index.cshtml" />
     <Content Include="Views\UserAccount\Register.cshtml" />
     <Content Include="Views\UserAccount\Login.cshtml" />
-    <Content Include="Views\Shared\_AddToCartPartial.cshtml" />
+    <Content Include="Views\Shared\_CartPartial.cshtml" />
+    <Content Include="Views\Shared\_CartDetailsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
