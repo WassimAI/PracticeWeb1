@@ -3,12 +3,13 @@
         e.preventDefault();
 
         var id = $(this).data("id");
-        var url = "/Cart/AddToCart";
-        //alert("this item id is " + id);
 
-        $.post(url, { productId: id }, function (data) {
-            
+        var url1 = "/Cart/AddToCart";
+        var url2 = "/Cart/CartPartial";
+
+        $.post(url1, { productId: id }, function (data) {
             $(".cartDetailsPartial").html(data);
         });
+
     });
 });

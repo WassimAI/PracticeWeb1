@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<PracticeWeb1.Areas.Admin.Models.ProductVM>
 
+@using PracticeWeb1.Entities.ViewModels
+
 @{
     ViewBag.Title = "All Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,11 +31,21 @@
 
     </div>
     <div class="col-md-3 hidden-xs categorySideBar">
-        <h3>Your Cart:</h3>
+        <h4 style="text-decoration: underline;">Your Cart</h4>
         <div class="cartDetailsPartial">
+            @if (Session["cart"] != null)
+            {
+                @Html.Partial("_CartDetailsPartial", new CartDetailsVM() { Items = (List<ItemVM>)Session["cart"], Qty = ViewBag.qty, TotalPrice = ViewBag.totalPrice })
+            }
+            else
+            {
+                @Html.Partial("_CartDetailsPartial", new CartDetailsVM() { Items = new List<ItemVM>(), Qty = 0, TotalPrice = 0 })
+            }
         </div>
+        <br />
         <div>
-            @*<a href="#" class="btn btn-danger clear-cart">Empty Your Cart</a>*@
+            <a href="#" class="btn btn-danger clear-cart">Empty Your Cart</a>
         </div>
+        <br />
     </div>
 </div>

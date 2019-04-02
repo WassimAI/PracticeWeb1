@@ -1,17 +1,21 @@
 ﻿@model PracticeWeb1.Entities.ViewModels.CartDetailsVM
 
-@if (Model == null)
+<!--This cndition is not showing I don't know why-->
+@if (Model.Items.Count() == 0)
 {
     <p>There are no items in the cart.</p>
 }
 else
 {
-    foreach(var item in Model.Items)
+    if (Model.Items != null)
     {
+        foreach (var item in Model.Items)
+        {
         <dl class="dl-horizontal">
             <dt>@item.Product.Title</dt>
             <dd>@item.Product.Price | @item.Quantity</dd>
         </dl>
+        }
     }
     <hr />
     <div>

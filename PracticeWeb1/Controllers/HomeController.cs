@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using PracticeWeb1.Areas.Admin.Models;
 using PracticeWeb1.Entities;
+using PracticeWeb1.Entities.ViewModels;
 using PracticeWeb1.Models;
 
 namespace PracticeWeb1.Controllers
@@ -24,12 +25,30 @@ namespace PracticeWeb1.Controllers
 
         public ActionResult AllProducts(int? id)
         {
+            int qty = 0;
+            decimal totalPrice = 0m;
+
             var listOfProducts = new List<ProductVM>();
 
             //Surprisingly this only worked when I used == instead of .Equal() method
             listOfProducts = db.products.Where(x => x.CategoryId == id).ToArray().Select(x => new ProductVM(x)).ToList();
 
             ViewBag.PageTitle = "AllProducts";
+
+            if(Session["cart"] != null)
+            {
+                var itemList = (List<ItemVM>)Session["cart"];
+                foreach (var item in itemList)
+                {
+                    qty += item.Quantity;
+                    totalPrice += item.Product.Price * item.Quantity;
+                }
+
+                ViewBag.qty = qty;
+                ViewBag.totalPrice = totalPrice;
+            }
+            
+
             return View(listOfProducts);
         }
 

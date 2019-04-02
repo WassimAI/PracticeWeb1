@@ -101,7 +101,7 @@ namespace PracticeWeb1.Controllers
 
             if (Session["cart"] != null)
             {
-                // Get total qty and price
+                //This is to initialize a list from the session, which already has an items list
                 var list = (List<ItemVM>)Session["cart"];
 
                 foreach (var item in list)
@@ -128,11 +128,16 @@ namespace PracticeWeb1.Controllers
         [HttpPost]
         public ActionResult ClearCart()
         {
-            var model = new CartVM();
+            var model = new CartDetailsVM()
+            {
+                Items = new List<ItemVM>(),
+                Qty = 0,
+                TotalPrice = 0
+            };
 
             Session["cart"] = null;
 
-            return PartialView("_CartPartial", model);
+            return PartialView("_CartDetailsPartial", model);
         }
     }
 }

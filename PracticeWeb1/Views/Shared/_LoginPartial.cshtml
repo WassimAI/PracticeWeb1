@@ -1,10 +1,9 @@
 ﻿<ul class="nav navbar-nav navbar-right">
-    @if(ViewBag.PageTitle != "AllProducts")
-    {
-    <li class="active">
+
+    <li id="cart-link">
         @Html.Action("CartPartial", "Cart")
     </li>
-    }
+
 
 
     @if (Session["uniqueId"] != null)
