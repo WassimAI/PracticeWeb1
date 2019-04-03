@@ -1,11 +1,11 @@
 ﻿<ul class="nav navbar-nav navbar-right">
-
-    <li id="cart-link">
-        @Html.Action("CartPartial", "Cart")
-    </li>
-
-
-
+    @if (ViewBag.PageTitle != "AllProducts")
+    {
+        <li id="cart-link">
+            @Html.Action("CartPartial", "Cart")
+        </li>
+    }
+    
     @if (Session["uniqueId"] != null)
     {
         <li>

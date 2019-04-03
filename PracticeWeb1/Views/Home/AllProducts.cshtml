@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<PracticeWeb1.Areas.Admin.Models.ProductVM>
 
 @using PracticeWeb1.Entities.ViewModels
+@using PracticeWeb1.Areas.Admin.Models
 
 @{
     ViewBag.Title = "All Products";
@@ -15,6 +16,16 @@
     <p>There are no products available under that selected category</p>
 }
 
+<div>
+    @Html.Partial("_SmallButtonPartial", new SmallButtonModel
+{
+    Action = "Index",
+    Controller = "Home",
+    Type = "primary",
+    Glyph = "list",
+    Text = "Back to Categories"
+})
+</div>
 <div class="row>">
     <div class="col-md-9 col-xs-12">
 
@@ -31,7 +42,8 @@
 
     </div>
     <div class="col-md-3 hidden-xs categorySideBar">
-        <h4 style="text-decoration: underline;">Your Cart</h4>
+        <h4>Your Cart</h4>
+        <hr />
         <div class="cartDetailsPartial">
             @if (Session["cart"] != null)
             {
@@ -42,9 +54,18 @@
                 @Html.Partial("_CartDetailsPartial", new CartDetailsVM() { Items = new List<ItemVM>(), Qty = 0, TotalPrice = 0 })
             }
         </div>
+        <hr />
         <br />
         <div>
-            <a href="#" class="btn btn-danger clear-cart">Empty Your Cart</a>
+            @Html.Partial("_SmallButtonPartial", new SmallButtonModel
+       {
+           Action = "Index",
+           Controller = "Cart",
+           Type = "success",
+           Glyph = "shopping-cart",
+           Text = "Go to Cart"
+       })
+            <a href="#" class="btn btn-danger clear-cart">Remove all Items</a>
         </div>
         <br />
     </div>

@@ -61,6 +61,8 @@ namespace PracticeWeb1.Controllers
 
             Product product = db.products.Find(id);
 
+            ViewBag.categoryId = product.CategoryId;
+
             var model = new ProductVM(product);
 
             model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))

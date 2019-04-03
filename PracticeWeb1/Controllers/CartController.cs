@@ -15,7 +15,25 @@ namespace PracticeWeb1.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            return View();
+            var model = new CartDetailsVM();
+
+            var listofItems = new List<ItemVM>();
+
+            if (Session["cart"] != null)
+            {
+                var cart = (List<ItemVM>)Session["cart"];
+
+                foreach (var item in cart)
+                {
+                    model.Qty += item.Quantity;
+                    model.TotalPrice += item.Product.Price * item.Quantity;
+                    listofItems.Add(item);
+                }
+            }
+
+            model.Items = listofItems;
+
+            return View(model);
         }
 
         //POST: Cart/AddToCart/1

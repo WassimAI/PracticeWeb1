@@ -1,5 +1,7 @@
 ﻿@model PracticeWeb1.Areas.Admin.Models.ProductVM
 
+@using PracticeWeb1.Areas.Admin.Models
+
 @{
     ViewBag.Title = "Product Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,5 +22,27 @@
             </div>
         }
     </div>
+
+</div>
+<br />
+<div>
+    @Html.Partial("_SmallButtonPartial", new SmallButtonModel
+   {
+       Action = "AllProducts",
+       Controller = "Home",
+       Type = "primary",
+       Glyph = "list",
+       Text = "Back to All Products",
+       Id = ViewBag.categoryId
+   })
+
+    @Html.Partial("_SmallButtonPartial", new SmallButtonModel
+           {
+               Action = "Index",
+               Controller = "Cart",
+               Type = "success",
+               Glyph = "shopping-cart",
+               Text = "Go to Cart"
+           })
 </div>
 
