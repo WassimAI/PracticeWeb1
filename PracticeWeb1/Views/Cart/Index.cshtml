@@ -25,6 +25,7 @@ else
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
+            <th></th>
         </tr>
         @if (Model.Items.Count() != 0)
         {
@@ -36,6 +37,10 @@ else
                     <td>$@item.Product.Price</td>
                     <td>@item.Quantity</td>
                     <td>@(item.Product.Price * item.Quantity)</td>
+                    <td>
+                        <a href="#" class="btn btn-success btn-inc-prod" data-id="@item.Product.Id"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a href="#" class="btn btn-danger btn-dec-prod" data-id="@item.Product.Id"><span class="glyphicon glyphicon-minus"></span></a>
+                    </td>
                 </tr>
             }
         }

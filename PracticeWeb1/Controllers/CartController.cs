@@ -144,6 +144,39 @@ namespace PracticeWeb1.Controllers
         }
 
         [HttpPost]
+        public ActionResult incProduct(int id)
+        {
+            var model = new CartDetailsVM();
+            var listofItesm = new List<ItemVM>();
+
+            int qty = 0;
+            decimal price = 0m;
+
+            var cart = (List<ItemVM>)Session["cart"];
+
+            foreach (var item in cart)
+            {
+                if (item.Product.Id.Equals(id))
+                {
+                    item.Quantity++;
+                    //model.Qty++;
+                    //model.TotalPrice += item.Product.Price*item.Quantity;
+                }
+
+                qty += item.Quantity;
+                price += item.Product.Price * item.Quantity;
+
+                listofItesm.Add(item);
+            }
+
+            model.Qty = qty;
+            model.TotalPrice = price;
+            model.Items = listofItesm;
+
+            return View("Index",model);
+        }
+
+        [HttpPost]
         public ActionResult ClearCart()
         {
             var model = new CartDetailsVM()

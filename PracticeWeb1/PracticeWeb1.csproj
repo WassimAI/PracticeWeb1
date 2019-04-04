@@ -285,6 +285,7 @@
     <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
     <Content Include="Scripts\Cart\addToCart.js" />
     <Content Include="Scripts\Cart\clearCart.js" />
+    <Content Include="Scripts\Cart\incProduct.js" />
     <Content Include="Scripts\logoff.js" />
     <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
