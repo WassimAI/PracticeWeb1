@@ -31,6 +31,8 @@ namespace PracticeWeb1.Controllers
                 }
             }
 
+            ViewBag.CartPage = "cartIndex";
+
             model.Items = listofItems;
 
             return View(model);
@@ -143,8 +145,7 @@ namespace PracticeWeb1.Controllers
             return PartialView("_CartPartial", model);
         }
 
-        [HttpPost]
-        public ActionResult incProduct(int id)
+        public JsonResult incProduct(int id)
         {
             var model = new CartDetailsVM();
             var listofItesm = new List<ItemVM>();
@@ -152,28 +153,22 @@ namespace PracticeWeb1.Controllers
             int qty = 0;
             decimal price = 0m;
 
-            var cart = (List<ItemVM>)Session["cart"];
+            List<ItemVM> cart = Session["cart"] as List<ItemVM>;
 
-            foreach (var item in cart)
+            ItemVM itemToInc = cart.FirstOrDefault(x => x.Product.Id.Equals(id));
+
+            itemToInc.Quantity++;
+
+            foreach(var item in cart)
             {
-                if (item.Product.Id.Equals(id))
-                {
-                    item.Quantity++;
-                    //model.Qty++;
-                    //model.TotalPrice += item.Product.Price*item.Quantity;
-                }
-
                 qty += item.Quantity;
                 price += item.Product.Price * item.Quantity;
-
-                listofItesm.Add(item);
             }
 
-            model.Qty = qty;
-            model.TotalPrice = price;
-            model.Items = listofItesm;
+            var result = new { totalQuantity = qty, totalPrice = price, quantity = itemToInc.Quantity, itemPrice = itemToInc.Product.Price};
 
-            return View("Index",model);
+            return Json(result, JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpPost]

@@ -6,8 +6,18 @@
         var id = $(this).data("id");
         var url = "/Cart/incProduct";
 
-        $.post(url, { id: id }, function (data) {
-            $("body .body-content").html(data);
+        $.getJSON(url, { id: id }, function (data) {
+            $("td#itemPrice_" + id).html(data.itemPrice);
+            $("td#quantity_" + id).html(data.quantity);
+
+            var qty = $("td#quantity_" + id).text();
+            var price = $("td#itemPrice_" + id).text();
+            
+            //alert(qty + " " + price);
+            $("td#itemTotalPrice_" + id).html(qty * price);
+
+            $("td#totalQuantity").html(data.totalQuantity);
+            $("td#totalPrice").html(data.totalPrice);
         });
     });
 });

@@ -34,9 +34,9 @@ else
                 <tr>
                     <td><a href="/Home/ProductDetails/@item.Product.Id"><img src="~/Images/Uploads/Products/@item.Product.Id/Thumbs/@item.Product.ImageUrl" alt="@item.Product.ImageUrl" width="50" height="50"/></a></td>
                     <td>@item.Product.Title</td>
-                    <td>$@item.Product.Price</td>
-                    <td>@item.Quantity</td>
-                    <td>@(item.Product.Price * item.Quantity)</td>
+                    <td id="itemPrice_@item.Product.Id">$@item.Product.Price</td>
+                    <td id="quantity_@item.Product.Id">@item.Quantity</td>
+                    <td id="itemTotalPrice_@item.Product.Id">$@(item.Product.Price * item.Quantity)</td>
                     <td>
                         <a href="#" class="btn btn-success btn-inc-prod" data-id="@item.Product.Id"><span class="glyphicon glyphicon-plus"></span></a>
                         <a href="#" class="btn btn-danger btn-dec-prod" data-id="@item.Product.Id"><span class="glyphicon glyphicon-minus"></span></a>
@@ -48,13 +48,13 @@ else
             <td></td>
             <td></td>
             <td>Total Number of Items:</td>
-            <td>(@Model.Qty)</td>
+            <td id="totalQuantity">(@Model.Qty)</td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td>Grand Total:</td>
-            <td>$@Model.TotalPrice</td>
+            <td id="totalPrice">$@Model.TotalPrice</td>
         </tr>
     </table>
 }
