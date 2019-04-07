@@ -152,6 +152,7 @@ namespace PracticeWeb1.Controllers
 
             int qty = 0;
             decimal price = 0m;
+            decimal itemTotalPrice = 0m;
 
             List<ItemVM> cart = Session["cart"] as List<ItemVM>;
 
@@ -165,7 +166,12 @@ namespace PracticeWeb1.Controllers
                 price += item.Product.Price * item.Quantity;
             }
 
-            var result = new { totalQuantity = qty, totalPrice = price, quantity = itemToInc.Quantity, itemPrice = itemToInc.Product.Price};
+            itemTotalPrice = itemToInc.Product.Price * itemToInc.Quantity;
+
+            var result = new { totalQuantity = qty, totalPrice = price,
+                quantity = itemToInc.Quantity, itemPrice = itemToInc.Product.Price,
+                itemTotalPrice = Math.Round(itemTotalPrice, 2)
+            };
 
             return Json(result, JsonRequestBehavior.AllowGet);
 

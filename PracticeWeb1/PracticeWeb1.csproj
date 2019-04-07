@@ -261,6 +261,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\Logos\Placeholder.png" />
     <Content Include="Images\Logos\sad_face.png" />
+    <Content Include="Images\Logos\shopping_cart.png" />
     <Content Include="Scripts\adminMenu.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />

@@ -18,6 +18,7 @@
 
             $("td#totalQuantity").html(data.totalQuantity);
             $("td#totalPrice").html(data.totalPrice);
+            $("td#itemTotalPrice_" + id).html(data.itemTotalPrice);
         });
     });
 });

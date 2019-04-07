@@ -36,7 +36,7 @@ else
                     <td>@item.Product.Title</td>
                     <td id="itemPrice_@item.Product.Id">$@item.Product.Price</td>
                     <td id="quantity_@item.Product.Id">@item.Quantity</td>
-                    <td id="itemTotalPrice_@item.Product.Id">$@(item.Product.Price * item.Quantity)</td>
+                    <td id="itemTotalPrice_@item.Product.Id">$@(Math.Round(item.Product.Price * item.Quantity,2))</td>
                     <td>
                         <a href="#" class="btn btn-success btn-inc-prod" data-id="@item.Product.Id"><span class="glyphicon glyphicon-plus"></span></a>
                         <a href="#" class="btn btn-danger btn-dec-prod" data-id="@item.Product.Id"><span class="glyphicon glyphicon-minus"></span></a>

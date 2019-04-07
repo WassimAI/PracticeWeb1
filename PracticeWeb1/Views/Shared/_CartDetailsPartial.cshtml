@@ -3,7 +3,10 @@
 <!--This cndition is not showing I don't know why-->
 @if (Model.Items.Count() == 0)
 {
-    <p>There are no items in the cart.</p>
+    <div>
+        <span>There are no items in the cart.</span>
+        <img src="~/Images/Logos/sad_face.png" width="50" height="50" alt="Sad Face" />
+    </div>
 }
 else
 {
