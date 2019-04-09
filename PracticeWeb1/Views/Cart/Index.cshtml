@@ -13,6 +13,7 @@
         There are no items in your cart.
         <img src="~/Images/Logos/sad_face.png" width="50" height="50" alt="Sad Face" />
     </div>
+    <br />
 }
 else
 {
@@ -31,12 +32,12 @@ else
         {
             foreach (var item in Model.Items)
             {
-                <tr>
-                    <td><a href="/Home/ProductDetails/@item.Product.Id"><img src="~/Images/Uploads/Products/@item.Product.Id/Thumbs/@item.Product.ImageUrl" alt="@item.Product.ImageUrl" width="50" height="50"/></a></td>
+                <tr id="row_@item.Product.Id">
+                    <td><a href="/Home/ProductDetails/@item.Product.Id"><img src="~/Images/Uploads/Products/@item.Product.Id/Thumbs/@item.Product.ImageUrl" alt="@item.Product.ImageUrl" width="50" height="50" /></a></td>
                     <td>@item.Product.Title</td>
                     <td id="itemPrice_@item.Product.Id">$@item.Product.Price</td>
                     <td id="quantity_@item.Product.Id">@item.Quantity</td>
-                    <td id="itemTotalPrice_@item.Product.Id">$@(Math.Round(item.Product.Price * item.Quantity,2))</td>
+                    <td id="itemTotalPrice_@item.Product.Id">$@(Math.Round(item.Product.Price * item.Quantity, 2))</td>
                     <td>
                         <a href="#" class="btn btn-success btn-inc-prod" data-id="@item.Product.Id"><span class="glyphicon glyphicon-plus"></span></a>
                         <a href="#" class="btn btn-danger btn-dec-prod" data-id="@item.Product.Id"><span class="glyphicon glyphicon-minus"></span></a>
@@ -57,25 +58,63 @@ else
             <td id="totalPrice">$@Model.TotalPrice</td>
         </tr>
     </table>
+
+    <a href="#" class="btn btn-danger clear-cart">Remove all Items</a>
+}
+@if (Session["username"] == null)
+{
+    <div class="modal fade" id="PlaceOrderModel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close pull-right" data-dismiss="modal">&times;</a>
+                    <h4>Placing your order</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>Do you want to proceed without signing in?</h4>
+
+                    <a href="/UserAccount/Login" class="btn btn-info">Sign In</a>
+                    <a href="#" class="btn btn-warning">Proceed to Place Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 @Html.Partial("_SmallButtonPartial", new SmallButtonModel
-   {
-       Action = "Index",
-       Controller = "Home",
-       Type = "success",
-       Glyph = "shopping-cart",
-       Text = "Continue Shopping"
-   })
+{
+    Action = "Index",
+    Controller = "Home",
+    Type = "info",
+    Glyph = "shopping-cart",
+    Text = "Continue Shopping"
+})
 
+@if (Session["username"] == null)
+{
+    @Html.Partial("_SmallButtonPartial", new SmallButtonModel
+{
+    Action = "",
+    Controller = "",
+    CustomClass = "place-order-btn",
+    Type = "success",
+    Glyph = "list",
+    Text = "Place Order"
+})
+}
+else
+{
     @Html.Partial("_SmallButtonPartial", new SmallButtonModel
 {
     Action = "Index",
     Controller = "Home",
-    Type = "primary",
+    CustomClass = "place-order-btn",
+    Type = "success",
     Glyph = "list",
-    Text = "Checkout"
+    Text = "Place Order"
 })
+}
+
 
 
 

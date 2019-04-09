@@ -13,6 +13,7 @@ namespace PracticeWeb1.Areas.Admin.Models
         public string Type { get; set; }
         public string Glyph { get; set; }
         public string Text { get; set; }
+        public string CustomClass { get; set; }
         public string ActionParameters {
             get {
                 return (Id != 0) ? string.Format("?Id={0}", Id) : null;

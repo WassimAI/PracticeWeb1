@@ -1,0 +1,54 @@
+﻿@model IEnumerable<PracticeWeb1.Entities.ViewModels.OrderVM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+
+
+
+        <table class="table">
+            <tr>
+                <th>
+                    User ID
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UniqueId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        <a href="#" class="order-details" id="order_@item.Id">View Details</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6 hidden-xs">
+        Order Details Partial Goes here
+    </div>
+</div>

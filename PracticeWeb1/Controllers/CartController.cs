@@ -177,19 +177,56 @@ namespace PracticeWeb1.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult ClearCart()
+        public JsonResult decProduct(int id)
         {
-            var model = new CartDetailsVM()
+            var model = new CartDetailsVM();
+            var listofItesm = new List<ItemVM>();
+
+            int qty = 0;
+            decimal price = 0m;
+            decimal itemTotalPrice = 0m;
+            bool isLastItem = false;
+
+            List<ItemVM> cart = Session["cart"] as List<ItemVM>;
+
+            ItemVM itemToInc = cart.FirstOrDefault(x => x.Product.Id.Equals(id));
+
+            if (itemToInc.Quantity > 1)
             {
-                Items = new List<ItemVM>(),
-                Qty = 0,
-                TotalPrice = 0
+                itemToInc.Quantity--;
+            }
+            else
+            {
+                itemToInc.Quantity = 0;
+                cart.Remove(itemToInc);
+                isLastItem = true;
+            }
+
+            foreach (var item in cart)
+            {
+                qty += item.Quantity;
+                price += item.Product.Price * item.Quantity;
+            }
+
+            itemTotalPrice = itemToInc.Product.Price * itemToInc.Quantity;
+
+            var result = new
+            {
+                totalQuantity = qty,
+                totalPrice = price,
+                quantity = itemToInc.Quantity,
+                itemPrice = itemToInc.Product.Price,
+                itemTotalPrice = Math.Round(itemTotalPrice, 2),
+                isLastItem = isLastItem
             };
 
-            Session["cart"] = null;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
-            return PartialView("_CartDetailsPartial", model);
+        [HttpPost]
+        public void ClearCart()
+        {
+            Session["cart"] = null;
         }
     }
 }

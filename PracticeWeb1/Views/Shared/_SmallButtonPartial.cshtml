@@ -1,6 +1,18 @@
 ﻿@model PracticeWeb1.Areas.Admin.Models.SmallButtonModel
 
-<a class="btn btn-@Model.Type" href="/@Model.Controller/@Model.Action@Model.ActionParameters">
+@{var url = "";
+
+    if (Model.Controller == "" && Model.Action == "")
+    {
+        url = "#";
+    }
+    else
+    {
+        url = "/" + Model.Controller + "/" + Model.Action + "/" + Model.ActionParameters;
+    }
+}
+
+<a class="btn btn-@Model.Type @Model.CustomClass" href="@url">
     <span class="glyphicon glyphicon-@Model.Glyph"></span>
     @Model.Text
 </a>

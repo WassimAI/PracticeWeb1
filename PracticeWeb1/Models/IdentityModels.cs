@@ -27,6 +27,8 @@ namespace PracticeWeb1.Models
         public DbSet<UserAccount> userAccounts { get; set; }
         public DbSet<Role> tblRoles { get; set; }
         public DbSet<UserRole> userRoles { get; set; }
+        public DbSet<Order> orders { get; set; }
+        public DbSet<OrderDetails> orderdetails { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
