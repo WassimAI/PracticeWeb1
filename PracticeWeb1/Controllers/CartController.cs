@@ -186,6 +186,7 @@ namespace PracticeWeb1.Controllers
             decimal price = 0m;
             decimal itemTotalPrice = 0m;
             bool isLastItem = false;
+            bool isCartEmpty = false;
 
             List<ItemVM> cart = Session["cart"] as List<ItemVM>;
 
@@ -200,6 +201,11 @@ namespace PracticeWeb1.Controllers
                 itemToInc.Quantity = 0;
                 cart.Remove(itemToInc);
                 isLastItem = true;
+            }
+
+            if (cart.Count() == 0)
+            {
+                isCartEmpty = true;
             }
 
             foreach (var item in cart)
@@ -217,7 +223,8 @@ namespace PracticeWeb1.Controllers
                 quantity = itemToInc.Quantity,
                 itemPrice = itemToInc.Product.Price,
                 itemTotalPrice = Math.Round(itemTotalPrice, 2),
-                isLastItem = isLastItem
+                isLastItem = isLastItem,
+                isCartEmpty = isCartEmpty
             };
 
             return Json(result, JsonRequestBehavior.AllowGet);

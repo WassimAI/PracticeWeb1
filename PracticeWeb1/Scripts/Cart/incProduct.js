@@ -48,6 +48,12 @@
                 $("#row_" + id).remove();
                 $("td#totalQuantity").html(data.totalQuantity);
                 $("td#totalPrice").html(data.totalPrice);
+                if (data.isCartEmpty) {
+                    $(".place-order-btn").hide();
+                    $(".clear-cart").hide();
+                    $(".table").remove();
+                    $(".empty-cart").append("<p>There are no items in your cart.</p>");
+                }
             }
             
         });
