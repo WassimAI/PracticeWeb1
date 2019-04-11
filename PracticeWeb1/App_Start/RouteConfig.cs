@@ -18,6 +18,12 @@ namespace PracticeWeb1
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Login",
+                url: "{controller}/{action}/{returnUrl}",
+                defaults: new { controller = "UserAccount", action = "Login", returnUrl = UrlParameter.Optional }
+            );
         }
     }
 }

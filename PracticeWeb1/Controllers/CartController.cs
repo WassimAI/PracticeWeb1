@@ -230,6 +230,29 @@ namespace PracticeWeb1.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult PlaceOrder()
+        {
+            var model = new CartDetailsVM();
+
+            var listofItems = new List<ItemVM>();
+
+            if (Session["cart"] != null)
+            {
+                var cart = (List<ItemVM>)Session["cart"];
+
+                foreach (var item in cart)
+                {
+                    model.Qty += item.Quantity;
+                    model.TotalPrice += item.Product.Price * item.Quantity;
+                    listofItems.Add(item);
+                }
+            }
+
+            model.Items = listofItems;
+
+            return View(model);
+        }
+
         [HttpPost]
         public void ClearCart()
         {

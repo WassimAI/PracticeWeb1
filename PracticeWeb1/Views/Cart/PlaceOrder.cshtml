@@ -1,0 +1,63 @@
+﻿@model PracticeWeb1.Entities.ViewModels.CartDetailsVM
+
+@using PracticeWeb1.Areas.Admin.Models
+@{
+    ViewBag.Title = "PlaceOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Your Order</h2>
+
+<div>
+    <h4>Please review your order then proceed to confirm &amp; pay</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Total Items:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qty)
+        </dd>
+        <hr />
+        <dt>
+            Amount to Pay:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+        <hr />
+        <dt>
+            Items:
+        </dt>
+        @foreach (var item in Model.Items)
+        {
+            <dd>
+                <img src="~/Images/Uploads/Products/@item.Product.Id/Thumbs/@item.Product.ImageUrl" alt="@item.Product.ImageUrl" width="80" height="80" />
+                <strong>@item.Product.Title x @item.Quantity = @item.Product.Price </strong><br />
+            </dd>
+        }
+    </dl>
+
+    @Html.Partial("_SmallButtonPartial", new SmallButtonModel
+{
+    Action = "Index",
+    Controller = "Cart",
+    Type = "info",
+    Glyph = "shopping-cart",
+    Text = "Back to Cart"
+})
+
+    @Html.Partial("_SmallButtonPartial", new SmallButtonModel
+   {
+       Action = "",
+       Controller = "",
+       CustomClass ="confirm-order-btn",
+       Type = "success",
+       Glyph = "credit-card",
+       Text = "Confirm & Pay"
+   })
+</div>
+<p>
+</p>
