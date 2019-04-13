@@ -64,6 +64,7 @@ namespace PracticeWeb1.Controllers
         public ActionResult Login(string returnUrl)
         {
             var model = new UserLoginModel();
+
             model.ReturnUrl = returnUrl;
 
             return View(model);
@@ -114,7 +115,7 @@ namespace PracticeWeb1.Controllers
 
             Session.Add("uniqueId", user.UniqueId);
 
-            string url = (!String.IsNullOrEmpty(model.ReturnUrl)) ? model.ReturnUrl : "/Home/Index";
+            string url = (!String.IsNullOrEmpty(model.ReturnUrl)) && Url.IsLocalUrl(model.ReturnUrl) ? model.ReturnUrl : "/Home/Index";
 
             return Redirect(url);
         }

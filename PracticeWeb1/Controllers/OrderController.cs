@@ -76,7 +76,7 @@ namespace PracticeWeb1.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "UserAccount");
+                return RedirectToAction("Login", "UserAccount", new { returnUrl = "/Order/UserOrders" });
             }
             //if(userId==null)
             //{
@@ -90,6 +90,33 @@ namespace PracticeWeb1.Controllers
                 o.UserName = Session["username"].ToString();
             }
             return View(orderVMList);
+        }
+
+        public ActionResult OrderDetailsPartial(int? id)
+        {
+            Order order = db.orders.Find(id);
+
+            if (order == null)
+            {
+                ModelState.AddModelError("", "Order does not exist, please try again or contact administrator");
+                return RedirectToAction("UserOrders", "Order");
+            }
+
+            var orderDetailsList = new List<OrderDetailsVM>();
+
+            orderDetailsList = db.orderdetails.ToArray().Where(x => x.OrderId.Equals(id)).Select(x => new OrderDetailsVM(x)).ToList();
+
+            decimal totalCost = 0m;
+            foreach(var item in orderDetailsList)
+            {
+                item.Product = db.products.Where(x => x.Id == item.ProductId).SingleOrDefault();
+                item.itemCost = item.Product.Price*item.Quantity;
+                totalCost += item.itemCost;
+            }
+
+            TempData["totalCost"] = totalCost.ToString();
+
+            return PartialView("_OrderDetailsPartial", orderDetailsList); ;
         }
     }
 }

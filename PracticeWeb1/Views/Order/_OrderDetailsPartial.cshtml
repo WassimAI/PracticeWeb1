@@ -1,0 +1,15 @@
+﻿@model IEnumerable<PracticeWeb1.Entities.ViewModels.OrderDetailsVM>
+
+<div>
+    <p><strong>Products Purshased:</strong></p>
+    @foreach (var item in Model)
+    {
+        <p>@item.Product.Title</p>
+        <img src="~/Images/Uploads/Products/@item.ProductId/Thumbs/@item.Product.ImageUrl" />
+        <p>Quantity: @item.Quantity</p>
+        <p>Cost: $@item.itemCost</p>
+    }
+
+    <p>Total Cost Paid: $@TempData["totalCost"]</p>
+
+</div>

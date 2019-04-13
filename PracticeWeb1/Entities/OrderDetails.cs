@@ -14,8 +14,8 @@ namespace PracticeWeb1.Entities
         public int Id { get; set; }
         public int OrderId { get; set; }
         public Guid? UniqueId { get; set; }
-        public int? ProductId { get; set; }
-        public int? Quantity { get; set; }
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
 
         [ForeignKey("UniqueId")]
         public virtual UserAccount user { get; set; }
