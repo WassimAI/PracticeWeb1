@@ -64,6 +64,8 @@ else
 
     <a href="#" class="btn btn-danger clear-cart">Remove all Items</a>
 }
+
+<!--The Modal-->
 @if (Session["username"] == null)
 {
     <div class="modal fade" id="PlaceOrderModel">
@@ -108,7 +110,7 @@ if (Session["username"] == null)
     Text = "Place Order"
 })
 }
-@*else
+else
 {
     @Html.Partial("_SmallButtonPartial", new SmallButtonModel
 {
@@ -119,7 +121,7 @@ if (Session["username"] == null)
     Glyph = "list",
     Text = "Place Order"
 })
-}*@
+}
 }
 
 

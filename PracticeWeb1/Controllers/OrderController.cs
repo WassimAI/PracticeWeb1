@@ -16,9 +16,10 @@ namespace PracticeWeb1.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: Order
         [roleAuth]
+        //This method should have been in admin area, will move it later
         public ActionResult Index()
         {
-            var orders = db.orders.ToArray().Select(x => new OrderVM(x)).ToList();
+            var orders = db.orders.ToArray().OrderByDescending(x=>x.CreatedAt).Select(x => new OrderVM(x)).ToList();
 
             foreach (var order in orders)
             {
@@ -61,17 +62,28 @@ namespace PracticeWeb1.Controllers
                 db.SaveChanges();
             }
 
+            Session["cart"] = null;
+
         }
 
         public ActionResult UserOrders()
         {
-            var userId = (Guid)Session["uniqueId"];
+            var userId = new object();
+
+            if (Session["uniqueId"] != null)
+            {
+                userId = (Guid)Session["uniqueId"];
+            }
+            else
+            {
+                return RedirectToAction("Login", "UserAccount");
+            }
             //if(userId==null)
             //{
             //    RedirectToAction("Login", "UserAccount", new {returnUrl = "/Order/UserOrders" });
             //}
 
-            var orderVMList = db.orders.ToArray().Where(x => x.UniqueId.Equals(userId)).Select(x=> new OrderVM(x)).ToList();
+            var orderVMList = db.orders.ToArray().Where(x => x.UniqueId.Equals(userId)).OrderByDescending(x=>x.CreatedAt).Select(x=> new OrderVM(x)).ToList();
 
             foreach(var o in orderVMList)
             {
