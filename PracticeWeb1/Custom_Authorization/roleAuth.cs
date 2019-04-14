@@ -76,7 +76,8 @@ namespace PracticeWeb1.Custom_Authorization
                             new
                             {
                                 controller = "UserAccount",
-                                action = "Login"
+                                action = "Login",
+                                Area = ""
                             })
                         );
         }

@@ -25,7 +25,14 @@
                     <li>@Html.ActionLink("Categories", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    @if (Session["uniqueId"] != null)
+                    @if (Session["role"] != null)
+                    {
+                        if (Session["role"].ToString() != "admin")
+                        {
+                            <li>@Html.ActionLink("My Orders", "UserOrders", "Order")</li>
+                        }
+                    }
+                    else if (Session["uniqueId"] != null)
                     {
                         <li>@Html.ActionLink("My Orders", "UserOrders", "Order")</li>
                     }

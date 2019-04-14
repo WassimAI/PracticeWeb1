@@ -21,7 +21,8 @@ namespace PracticeWeb1
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/toastr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
                       "~/Scripts/productImagePreview.js",
@@ -35,7 +36,8 @@ namespace PracticeWeb1
                       "~/Scripts/Cart/addToCart.js",
                       "~/Scripts/Cart/clearCart.js",
                       "~/Scripts/Cart/incProduct.js",
-                      "~/Scripts/Order/OrderScript.js"));
+                      "~/Scripts/Order/OrderScript.js",
+                      "~/Scripts/UserAccount/userAccountScript.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
