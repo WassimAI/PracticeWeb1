@@ -48,5 +48,7 @@ namespace PracticeWeb1.Entities.ViewModels
         [Compare("Password", ErrorMessage ="Passwords do not Match")]
         public string ConfirmPassword { get; set; }
         public string FullName { get { return Fname + " " + LastName; } }
+
+        public string returnUrl { get; set; }
     }
 }

@@ -27,9 +27,10 @@ namespace PracticeWeb1.Controllers
             return View(userVMList);
         }
 
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl)
         {
             var model = new UserAccountVM();
+            model.returnUrl = returnUrl;
 
             return View(model);
         }
@@ -58,7 +59,38 @@ namespace PracticeWeb1.Controllers
 
             TempData["Success"] = "User: " + model.UserName + " has been successfuly created!";
 
-            return RedirectToAction("Login", "UserAccount");
+            string url = (!string.IsNullOrEmpty(model.returnUrl) && Url.IsLocalUrl(model.returnUrl)) ? model.returnUrl : "/UserAccount/Login";
+
+            if(url == model.returnUrl)
+            {
+                #region loginAutomatically
+                Session["username"] = us.UserName;
+                Session["email"] = us.Email;
+                Session["uniqueId"] = us.UniqueId;
+
+                Session.Add("uniqueId", us.UniqueId);
+
+                int roleId = 0;
+                string role = "";
+
+                if (db.userRoles.Where(x => x.UniqueId == us.UniqueId).FirstOrDefault() != null)
+                {
+                    roleId = db.userRoles.Where(x => x.UniqueId == us.UniqueId).FirstOrDefault().RoleId;
+                    role = db.tblRoles.Where(x => x.Id == roleId).FirstOrDefault().Name;
+                }
+
+                if (role == "admin")
+                {
+                    Session["role"] = role;
+                }
+                else
+                {
+                    Session["role"] = null;
+                }
+                #endregion
+            }
+            return Redirect(url);
+            //return RedirectToAction("Login", "UserAccount");
         }
 
         public ActionResult Login(string returnUrl)

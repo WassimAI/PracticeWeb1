@@ -1,11 +1,13 @@
 ﻿$(function () {
 
+    /*Modal Showing*/
     $(document).on("click", "a.place-order-btn", function (e) {
         //e.preventDefault();
 
         $("#PlaceOrderModel").modal("show");
     });
 
+    /*Placing order function*/
     $(document).on("click", ".confirm-order-btn", function (e) {
         e.preventDefault();
         var url = "/Order/PlaceOrder";
