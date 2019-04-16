@@ -10,11 +10,24 @@
     /*Placing order function*/
     $(document).on("click", ".confirm-order-btn", function (e) {
         e.preventDefault();
-        var url = "/Order/PlaceOrder";
+        var url1 = "/Cart/checkAddress";
+        var url2 = "/Order/PlaceOrder";
+        var userName = $("#userNameDiv").data("id");
 
-        $.post(url, null, function (data) {
-            location.href = "/Order/UserOrders";
+        $.getJSON(url1, { userName: userName }, function (data) {
+            if (data.response == "error") {
+                alert("Error has happened, user Does not exist!");
+            } else if (data.response == "No") {
+                //alert("you do not have address chosen");
+                $("#checkAddressModal").modal("show");
+            } else {
+                $.post(url2, null, function (data) {
+                    location.href = "/Order/UserOrders";
+                });
+            }
         });
+
+        
     });
 
     /*Order Details Partial*/

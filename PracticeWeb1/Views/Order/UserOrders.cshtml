@@ -7,9 +7,13 @@
 
 <h2>My Orders</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (TempData["orderSuccess"] != null)
+{
+    <div class="alert alert-success">
+        <p>@TempData["orderSuccess"]</p>
+    </div>
+}
+
 <div class="row">
     <div class="col-md-6">
         <table class="table">

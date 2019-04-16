@@ -50,5 +50,11 @@ namespace PracticeWeb1.Entities.ViewModels
         public string FullName { get { return Fname + " " + LastName; } }
 
         public string returnUrl { get; set; }
+        [Required(ErrorMessage ="Country is Required")]
+        [StringLength(50)]
+        public string Country { get; set; }
+        [Required(ErrorMessage = "Address is Required")]
+        [StringLength(1024)]
+        public string Address { get; set; }
     }
 }

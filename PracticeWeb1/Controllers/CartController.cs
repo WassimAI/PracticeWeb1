@@ -253,6 +253,41 @@ namespace PracticeWeb1.Controllers
             return View(model);
         }
 
+        public JsonResult checkAddress(string userName)
+        {
+            //Get user
+            var user = db.userAccounts.Where(x=>x.UserName.Equals(userName)).FirstOrDefault();
+            string response="";
+
+            if(user == null)
+            {
+                ModelState.AddModelError("", "Sorry, the user account seems to be missing, please try to login again");
+                response = "error";
+                var result = new {
+                    response = response
+                };
+                return Json(result , JsonRequestBehavior.AllowGet);
+            }
+
+            if(user.Country == null || user.Address == null)
+            {
+                response = "No";
+                var result = new
+                {
+                    response = response
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            } else
+            {
+                response = "Yes";
+                var result = new
+                {
+                    response = response
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public void ClearCart()
         {

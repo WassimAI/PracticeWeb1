@@ -63,6 +63,7 @@ namespace PracticeWeb1.Controllers
             }
 
             Session["cart"] = null;
+            TempData["orderSuccess"] = "Your Order has been placed.";
 
         }
 

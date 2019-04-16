@@ -53,11 +53,13 @@ namespace PracticeWeb1.Controllers
             us.Email = model.Email;
             us.UserName = model.UserName;
             us.Password = Crypto.Hash(model.Password,"sha256");
+            us.Country = model.Country;
+            us.Address = model.Address;
 
             db.userAccounts.Add(us);
             db.SaveChanges();
 
-            TempData["Success"] = "User: " + model.UserName + " has been successfuly created!";
+            TempData["Success"] = "User:<strong> " + model.UserName + " </strong>has been successfuly created!";
 
             string url = (!string.IsNullOrEmpty(model.returnUrl) && Url.IsLocalUrl(model.returnUrl)) ? model.returnUrl : "/UserAccount/Login";
 
