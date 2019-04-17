@@ -221,6 +221,7 @@
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\UserAccount.cs" />
     <Compile Include="Entities\UserRole.cs" />
+    <Compile Include="Entities\ViewModels\AddressPartialVM.cs" />
     <Compile Include="Entities\ViewModels\CartDetailsVM.cs" />
     <Compile Include="Entities\ViewModels\CartVM.cs" />
     <Compile Include="Entities\ViewModels\ItemVM.cs" />
@@ -246,6 +247,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Categories.css" />
+    <Content Include="Content\Order\OrderStyles.css" />
     <Content Include="Content\ProductThumbnail.css" />
     <Content Include="Content\CategoryThumbnail.css" />
     <Content Include="Content\fancybox\blank.gif" />
@@ -266,6 +268,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Animations\brown_rolling_spinner.gif" />
     <Content Include="Images\Logos\Placeholder.png" />
     <Content Include="Images\Logos\sad_face.png" />
     <Content Include="Images\Logos\shopping_cart.png" />
@@ -369,6 +372,8 @@
     <Content Include="Views\Cart\PlaceOrder.cshtml" />
     <Content Include="Views\Order\UserOrders.cshtml" />
     <Content Include="Views\Order\_OrderDetailsPartial.cshtml" />
+    <Content Include="Views\Shared\_AddressPartial.cshtml" />
+    <Content Include="Views\UserAccount\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

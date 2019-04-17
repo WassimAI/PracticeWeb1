@@ -154,6 +154,71 @@ namespace PracticeWeb1.Controllers
             return Redirect(url);
         }
 
+        public ActionResult AddressPartial()
+        {
+            var userName = Session["username"].ToString();
+
+            var user = db.userAccounts.Where(x => x.UserName.Equals(userName)).FirstOrDefault();
+
+            if(user.Country == null || user.Address == null)
+            {
+                ModelState.AddModelError("", "You do not have a registered address!");
+                //Return redirect to profile page to edit address
+            }
+
+            var model = new AddressPartialVM {
+                Country = user.Country,
+                Address = user.Address
+            };
+
+            return PartialView("_AddressPartial",model);
+        }
+
+        public ActionResult UserProfile(string userName, string returnUrl)
+        {
+            userName = Session["username"].ToString();
+
+            var user = db.userAccounts.Where(x => x.UserName.Equals(userName)).FirstOrDefault();
+
+            UserAccountVM model = new UserAccountVM()
+            {
+                Fname = user.Fname,
+                LastName = user.LastName,
+                Email = user.Email,
+                UserName = user.UserName,
+                Country = user.Country,
+                Address = user.Address,
+                returnUrl = returnUrl
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult UserProfile(UserAccountVM model)
+        {
+            var usertoEdit = db.userAccounts.Where(x => x.UserName.Equals(model.UserName)).FirstOrDefault();
+
+            if(User == null)
+            {
+                ModelState.AddModelError("", "Sorry user does not exist");
+                return View(model);
+            }
+
+            //put model errors later
+
+            usertoEdit.Fname = model.Fname;
+            usertoEdit.LastName = model.LastName;
+            usertoEdit.Email = model.Email;
+            usertoEdit.UserName = model.UserName;
+            usertoEdit.Country = model.Country;
+            usertoEdit.Address = model.Address;
+
+            db.SaveChanges();
+            string url = (!string.IsNullOrEmpty(model.returnUrl) && Url.IsLocalUrl(model.returnUrl)) ? model.returnUrl : "/Home/Index";
+
+            return Redirect(url);
+        }
+
         [HttpPost]
         public void Logoff()
         {

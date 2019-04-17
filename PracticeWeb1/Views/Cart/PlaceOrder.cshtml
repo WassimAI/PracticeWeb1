@@ -1,6 +1,7 @@
 ﻿@model PracticeWeb1.Entities.ViewModels.CartDetailsVM
 
 @using PracticeWeb1.Areas.Admin.Models
+@using PracticeWeb1.Entities.ViewModels
 @{
     ViewBag.Title = "PlaceOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -50,17 +51,17 @@
 })
 
     @Html.Partial("_SmallButtonPartial", new SmallButtonModel
-   {
-       Action = "",
-       Controller = "",
-       CustomClass ="confirm-order-btn",
-       Type = "success",
-       Glyph = "credit-card",
-       Text = "Confirm & Pay"
-   })
+{
+    Action = "",
+    Controller = "",
+    CustomClass = "confirm-order-btn",
+    Type = "success",
+    Glyph = "credit-card",
+    Text = "Confirm & Pay"
+})
 </div>
 
-<div class="modal fade" id="checkAddressModal">
+<div class="modal fade" id="checkAddressModal" data-backdrop="false">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,9 +69,13 @@
                 <h4>Please Confirm your Address</h4>
             </div>
             <div class="modal-body">
-                Address Partial goes here
-                <a href="/Cart/PlaceOrder" class="btn btn-info">Yes that's my Address! Proceed</a>
-                <a href="/UserAccount/userProfile" class="btn btn-warning">Edit my Address</a>
+                <div class="spinner">
+                    <img src="~/Images/Animations/brown_rolling_spinner.gif" />
+                </div>
+                <div class="address-partial-div">
+                </div>
+                <a href="/Cart/PlaceOrder" class="btn btn-info btn-proceed">Yes that's my Address! Proceed</a>
+                <a href="/UserAccount/userProfile?returnUrl=/Cart/PlaceOrder" class="btn btn-warning btn-edit-address">Edit my Address</a>
             </div>
         </div>
     </div>
