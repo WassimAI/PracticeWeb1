@@ -7,7 +7,7 @@
         $("#PlaceOrderModel").modal("show");
     });
 
-    /*Placing order function*/
+    /*The Main and essential Placing order function*/
     $(document).on("click", ".confirm-order-btn", function (e) {
         $("div.spinner").hide();
         e.preventDefault();
@@ -17,12 +17,16 @@
 
         $.getJSON(url1, { userName: userName }, function (data) {
             if (data.response == "error") {
-                //Work on UI & UX here
+                //This is case with no user or problems with sessions
                 alert("Error has happened, user Does not exist!");
             } else if (data.response == "No") {
-                //Work on UI & UX here
-                location.href = "/UserAccount/userProfile?userName=" + userName + "&returnUrl=/Cart/PlaceOrder";
+                //This is case with no address
+                bootbox.alert("You do not have a registered address, we will redirect you now to fill in the address", function () {
+                    location.href = "/UserAccount/userProfile?returnUrl=/Cart/PlaceOrder";
+                });
+                
             } else {
+                //This is the OK case, user needs to confirm or edit address to proceed
                 $("#checkAddressModal").modal("show");
                 $.get("/UserAccount/AddressPartial", null, function (data) { $(".address-partial-div").html(data); });
 

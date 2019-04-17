@@ -10,7 +10,7 @@
     @if (Session["uniqueId"] != null)
     {
         <li>
-            @Html.ActionLink("Hello " + Session["username"].ToString() + "!", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink("Hello " + Session["username"].ToString() + "!", "UserProfile", "UserAccount", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
     }
 

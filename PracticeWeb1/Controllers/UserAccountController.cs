@@ -44,6 +44,19 @@ namespace PracticeWeb1.Controllers
                 return View(model);
             }
 
+            //Check username availability
+            if (db.userAccounts.Any(x => x.UserName.Equals(model.UserName)))
+            {
+                ModelState.AddModelError("", "Sorry, the username you chose was already taken by another user.");
+                return View(model);
+            }
+
+            //Check Email Availability
+            if (db.userAccounts.Any(x => x.Email.Equals(model.Email)))
+            {
+                ModelState.AddModelError("", "Sorry, the Email you chose was already taken by another user.");
+                return View(model);
+            }
 
             UserAccount us = new UserAccount();
 
@@ -174,9 +187,18 @@ namespace PracticeWeb1.Controllers
             return PartialView("_AddressPartial",model);
         }
 
-        public ActionResult UserProfile(string userName, string returnUrl)
+        public ActionResult UserProfile(string returnUrl)
         {
-            userName = Session["username"].ToString();
+            string userName;
+            //We could have alternatively used uniqueId
+            if (Session["username"] != null)
+            {
+                userName = Session["username"].ToString();
+            }
+            else
+            {
+                return RedirectToAction("Login", "UserAccount", new { returnUrl = "/UserAccount/UserProfile" });
+            }
 
             var user = db.userAccounts.Where(x => x.UserName.Equals(userName)).FirstOrDefault();
 
