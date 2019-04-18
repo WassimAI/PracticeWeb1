@@ -35,7 +35,7 @@ namespace PracticeWeb1.Controllers
 
             ViewBag.PageTitle = "AllProducts";
 
-            if(Session["cart"] != null)
+            if (Session["cart"] != null)
             {
                 var itemList = (List<ItemVM>)Session["cart"];
                 foreach (var item in itemList)
@@ -47,14 +47,14 @@ namespace PracticeWeb1.Controllers
                 ViewBag.qty = qty;
                 ViewBag.totalPrice = totalPrice;
             }
-            
+
 
             return View(listOfProducts);
         }
 
         public ActionResult ProductDetails(int? id)
         {
-            if(id==0)
+            if (id == 0)
             {
                 return HttpNotFound();
             }
