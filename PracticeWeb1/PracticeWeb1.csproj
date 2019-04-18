@@ -206,6 +206,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\webItemController.cs" />
     <Compile Include="Areas\Admin\Models\CategoryVM.cs" />
     <Compile Include="Areas\Admin\Models\ProductVM.cs" />
     <Compile Include="Areas\Admin\Models\SmallButtonModel.cs" />
@@ -215,6 +216,8 @@
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="Custom_Authorization\roleAuth.cs" />
     <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\ViewModels\webItemVM.cs" />
+    <Compile Include="Entities\webItem.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetails.cs" />
     <Compile Include="Entities\Product.cs" />
@@ -306,6 +309,7 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\webItem\add-item.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />

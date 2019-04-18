@@ -29,6 +29,7 @@ namespace PracticeWeb1.Models
         public DbSet<UserRole> userRoles { get; set; }
         public DbSet<Order> orders { get; set; }
         public DbSet<OrderDetails> orderdetails { get; set; }
+        public DbSet<webItem> webItems { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
