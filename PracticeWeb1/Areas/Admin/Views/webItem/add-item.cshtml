@@ -7,7 +7,7 @@
 
 <h2>Add Item</h2>
 
-@if(TempData["success"]!= null)
+@if (TempData["success"] != null)
 {
     <div class="alert alert-success">
         <p>@TempData["success"]</p>
@@ -40,12 +40,12 @@
         <div class="form-group">
             <label class="control-label col-md-2">Type</label>
             <div class="col-md-10">
-                <select for="Type" class="form-control" id="typeList">
-                    <option value="0">Select Type</option>
-                    <option value="1">Video File</option>
-                    <option value="2">Image File</option>
-                    <option value="3">Text File</option>
-                </select>
+                @Html.DropDownListFor(model => model.Type, new List<SelectListItem> {
+               new SelectListItem { Text = "Video File", Value = "1" },
+               new SelectListItem { Text = "Audio File", Value = "2" },
+               new SelectListItem { Text = "Image File", Value = "3" },
+               new SelectListItem { Text = "Text File", Value = "4" }
+           }, "Select File Type", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
             </div>
         </div>
