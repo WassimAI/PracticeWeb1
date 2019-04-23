@@ -14,6 +14,12 @@ namespace PracticeWeb1.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public ActionResult Landing()
+        {
+            webItemVM model = new webItemVM();
+
+            return View(model);
+        }
         public ActionResult Index()
         {
             var categories = new List<Category>();

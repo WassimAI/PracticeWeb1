@@ -250,6 +250,18 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Categories.css" />
+    <Content Include="Content\landing_style\cart.css" />
+    <Content Include="Content\landing_style\cart_responsive.css" />
+    <Content Include="Content\landing_style\categories.css" />
+    <Content Include="Content\landing_style\categories_responsive.css" />
+    <Content Include="Content\landing_style\checkout.css" />
+    <Content Include="Content\landing_style\checkout_responsive.css" />
+    <Content Include="Content\landing_style\contact.css" />
+    <Content Include="Content\landing_style\contact_responsive.css" />
+    <Content Include="Content\landing_style\main_styles.css" />
+    <Content Include="Content\landing_style\product.css" />
+    <Content Include="Content\landing_style\product_responsive.css" />
+    <Content Include="Content\landing_style\responsive.css" />
     <Content Include="Content\Order\OrderStyles.css" />
     <Content Include="Content\ProductThumbnail.css" />
     <Content Include="Content\CategoryThumbnail.css" />
@@ -378,10 +390,15 @@
     <Content Include="Views\Order\_OrderDetailsPartial.cshtml" />
     <Content Include="Views\Shared\_AddressPartial.cshtml" />
     <Content Include="Views\UserAccount\UserProfile.cshtml" />
+    <Content Include="Views\Home\Landing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\landing_style\bootstrap4\" />
     <Folder Include="Images\Uploads\" />
+    <Folder Include="LandingImages\" />
+    <Folder Include="plugins\" />
+    <Folder Include="Scripts\js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

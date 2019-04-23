@@ -5,12 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PracticeWeb1.Custom_Authorization;
 using PracticeWeb1.Entities;
 using PracticeWeb1.Entities.ViewModels;
 using PracticeWeb1.Models;
 
 namespace PracticeWeb1.Areas.Admin.Controllers
 {
+    [roleAuth]
     public class webItemController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
